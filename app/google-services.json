@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "573011956959",
+    "project_id": "jetareader-1ee22",
+    "storage_bucket": "jetareader-1ee22.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573011956959:android:5f60fba43b38d1fe98856a",
+        "android_client_info": {
+          "package_name": "com.bhavya.areader"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC11Cz7SaQXwReO-4PHZDN0wEmKePbmBPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:573011956959:android:15c86fefd478db2798856a",
+        "android_client_info": {
+          "package_name": "com.bhavya.foodorder"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC11Cz7SaQXwReO-4PHZDN0wEmKePbmBPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
