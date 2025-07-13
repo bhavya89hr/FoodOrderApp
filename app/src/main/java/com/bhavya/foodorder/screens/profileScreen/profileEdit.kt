@@ -49,7 +49,6 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -59,10 +58,23 @@ import com.bhavya.getfitapp.components.InputFields
 
 
 @Composable
-fun profileEdit(navController: NavController,onValueChange:(String)->Unit={}){
+fun profileEdit(
+    email: String?,
+    name: String?,
+    MobileNo: String?,
+    Address: String?,
+    navController: NavController,
+    onValueChange: (String)-> Unit={}
+
+){
     val value= remember {
         mutableStateOf("")
     }
+    val Address= remember {
+        mutableStateOf("")
+    }
+
+
     val mobileNum= remember {
         mutableStateOf("")
     }
@@ -101,7 +113,7 @@ fun profileEdit(navController: NavController,onValueChange:(String)->Unit={}){
     }
     Surface(
         modifier = Modifier.fillMaxSize().background(Color.Black),
-        color = Color(0xFF232323)
+        color = Color.LightGray
     ) {
         Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
             , verticalArrangement = Arrangement.Top
@@ -113,18 +125,17 @@ fun profileEdit(navController: NavController,onValueChange:(String)->Unit={}){
 navController.navigate("ProfileScreen")
                 }
                     .rotate(180f),
-                    colorFilter = ColorFilter.tint(Color(0xFFE2F163)))
+                    colorFilter = ColorFilter.tint(Color.Black))
                 Spacer(modifier = Modifier.width(10.dp))
-                Text(text="Back", color = Color(0xFFE2F163), fontWeight = FontWeight.Bold, textAlign = TextAlign.Start, modifier =Modifier.fillMaxWidth(), fontSize = 20.sp)
+                Text(text="Back", color = Color.Black, fontWeight = FontWeight.Bold, textAlign = TextAlign.Start, modifier =Modifier.fillMaxWidth(), fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.height(30.dp))
-            Text(text="Fill Your Profile", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
+            Text(text="Fill Your Profile", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
             Spacer(modifier = Modifier.height(40.dp))
-            Text(text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ", fontSize = 14.sp, fontWeight = FontWeight.Light, color = Color.White, modifier = Modifier.fillMaxWidth().padding(15.dp), textAlign = TextAlign.Center)
-            Spacer(modifier = Modifier.height(30.dp))
+
             Surface(modifier = Modifier.fillMaxWidth()
                 .height(150.dp),
-                color = Color(0xFF232323)) {
+                color = Color.LightGray) {
                 Column(modifier = Modifier.width(300.dp).fillMaxHeight().
                 padding(0.dp,20.dp), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
 //Image(painter = painterResource(id=R.drawable.def), contentDescription = "", modifier = Modifier.size(200.dp).clip(CircleShape))
@@ -175,7 +186,7 @@ navController.navigate("ProfileScreen")
 
             Column(modifier = Modifier.fillMaxSize().padding(20.dp,10.dp)) {
                 Spacer(modifier = Modifier.height(13.dp))
-                Text(text="Full Name",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFB3A0FF))
+                Text(text="Full Name",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
                 Spacer(modifier = Modifier.height(13.dp))
                 InputFields(
                     valueState =value,
@@ -196,7 +207,7 @@ navController.navigate("ProfileScreen")
                     })
 
                 Spacer(modifier = Modifier.height(13.dp))
-                Text(text="Email",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFB3A0FF))
+                Text(text="Email",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
                 Spacer(modifier = Modifier.height(13.dp))
 
                 InputFields(
@@ -214,7 +225,25 @@ navController.navigate("ProfileScreen")
 
                     })
                 Spacer(modifier = Modifier.height(13.dp))
-                Text(text="Mobile Number",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color(0xFFB3A0FF))
+                Text(text="Address",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
+                Spacer(modifier = Modifier.height(13.dp))
+
+                InputFields(
+                    valueState =Address,
+                    labelId =  "" ,
+                    enabled =true ,
+                    modifier = Modifier.
+                    padding(20.dp)
+                    ,
+                    isSingleLine =true ,
+                    onAction = KeyboardActions{
+                        if(!validState)return@KeyboardActions
+                        onValueChange(Email.value.trim())
+                        keyboardController?.hide()
+
+                    })
+                Spacer(modifier = Modifier.height(13.dp))
+                Text(text="Mobile Number",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
                 Spacer(modifier = Modifier.height(13.dp))
                 InputFields(
                     valueState =mobileNum,
@@ -236,15 +265,21 @@ navController.navigate("ProfileScreen")
                 Spacer(modifier = Modifier.height(13.dp))
             }
             Button(onClick = {
+                navController.previousBackStackEntry?.savedStateHandle?.set("name", value.value)
+                navController.previousBackStackEntry?.savedStateHandle?.set("email", Email.value)
+                navController.previousBackStackEntry?.savedStateHandle?.set("mobile", mobileNum.value)
+                navController.previousBackStackEntry?.savedStateHandle?.set("address", Address.value)
 
+                // Navigate back
+                navController.popBackStack()
             }, modifier = Modifier.width(150.dp)
                 .height(50.dp)
 
                 .clip(RoundedCornerShape(15.dp)),
                 shape = CircleShape,
-                colors =ButtonDefaults.buttonColors(Color(0xFFE2F163)),
+                colors =ButtonDefaults.buttonColors(Color.Red),
             ) {
-                Text(text="Save", fontSize = 20.sp,color=Color.Black)
+                Text(text="Save", fontSize = 20.sp,color=Color.White)
             }
 
         }
