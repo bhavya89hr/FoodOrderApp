@@ -11,9 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.bhavya.foodorder.navigation.FoNavigation
 import com.bhavya.foodorder.screens.GetStarted
-import com.bhavya.foodorder.screens.profileScreen.profileSreen
+import com.bhavya.foodorder.screens.profileScreen.Navigation.ProfileNav
+import com.bhavya.foodorder.screens.profileScreen.profileScreen
+
 import com.bhavya.foodorder.ui.theme.FoodOrderTheme
 import com.google.firebase.FirebaseApp
 
@@ -25,7 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FoodOrderTheme {
 
-                profileSreen()
+            ProfileNav()
             }
         }
     }

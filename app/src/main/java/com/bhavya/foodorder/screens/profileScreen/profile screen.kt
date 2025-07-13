@@ -48,10 +48,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
-@Preview
+
 @Composable
-fun profileSreen() {
+fun profileScreen(navController: NavController) {
     Surface(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
         Column(
             modifier = Modifier.fillMaxSize().background(color = Color.LightGray)
@@ -90,7 +91,9 @@ fun profileSreen() {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.Red,
-                    modifier = Modifier.clickable {})
+                    modifier = Modifier.clickable {
+           navController.navigate("ProfileEdit")
+                    })
 
             }
             Card(
