@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.bhavya.foodorder.navigation.FoNavigation
 import com.bhavya.foodorder.screens.GetStarted
+import com.bhavya.foodorder.screens.profileScreen.profileSreen
 import com.bhavya.foodorder.ui.theme.FoodOrderTheme
 import com.google.firebase.FirebaseApp
 
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FoodOrderTheme {
 
-              FoNavigation()
+                profileSreen()
             }
         }
     }
