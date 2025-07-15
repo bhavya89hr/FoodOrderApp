@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bhavya.foodorder.navigation.FoNavigation
+import com.bhavya.foodorder.screens.CartScreen.CartScreen
 import com.bhavya.foodorder.screens.GetStarted
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.profileScreen.Navigation.ProfileNav
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FoodOrderTheme {
 
-            FoNavigation()
+               FoNavigation()
             }
         }
     }

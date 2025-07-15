@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.bhavya.foodorder.screens.CartScreen.CartScreen
 import com.bhavya.foodorder.screens.GetStarted
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.LoginScreen.LoginScreen
@@ -24,6 +25,9 @@ fun FoNavigation(){
         composable (AppScreens.HomeScreen.route){
             HomeScreen(
                 navController=navController)
+        }
+        composable(AppScreens.CartScreen.route) {
+            CartScreen(navController)
         }
     }
 

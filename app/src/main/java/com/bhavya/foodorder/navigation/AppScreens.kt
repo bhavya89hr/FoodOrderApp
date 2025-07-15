@@ -4,5 +4,6 @@ enum class AppScreens(val route: String) {
     GetStarted("get_started"),
     LoginScreen("LoginScreen"),
     AddFoodScreen("AddFoodScreen"),
-    HomeScreen("home")
+    HomeScreen("home"),
+    CartScreen("Cart")
 }

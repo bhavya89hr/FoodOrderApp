@@ -77,7 +77,7 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
                     }
                 },
                 actions = {
-                    IconButton(onClick = { /* TODO: go to cart */ }, modifier = Modifier.padding(end = 12.dp)) {
+                    IconButton(onClick = { navController.navigate("Cart") }, modifier = Modifier.padding(end = 12.dp)) {
                         Icon(
                             painter = painterResource(id = R.drawable.vector1), // Replace with your icon
                             contentDescription = "Cart",
