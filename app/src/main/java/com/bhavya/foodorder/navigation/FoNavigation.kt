@@ -2,13 +2,16 @@ package com.bhavya.foodorder.navigation
 
 import android.appwidget.AppWidgetProvider
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bhavya.foodorder.screens.CartScreen.CartScreen
+import com.bhavya.foodorder.screens.ChatBotScreen.ChatBotScreen
 import com.bhavya.foodorder.screens.GetStarted
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.LoginScreen.LoginScreen
+
 
 @Composable
 fun FoNavigation(){
@@ -29,6 +32,11 @@ fun FoNavigation(){
         composable(AppScreens.CartScreen.route) {
             CartScreen(navController)
         }
+        composable(AppScreens.ChatBotScreen.route) {
+            ChatBotScreen(navController=navController)
+        }
+
+
     }
 
 }

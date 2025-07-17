@@ -18,7 +18,6 @@ import com.bhavya.foodorder.screens.CartScreen.CartScreen
 import com.bhavya.foodorder.screens.GetStarted
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.profileScreen.Navigation.ProfileNav
-import com.bhavya.foodorder.screens.profileScreen.profileScreen
 
 import com.bhavya.foodorder.ui.theme.FoodOrderTheme
 import com.google.firebase.FirebaseApp
