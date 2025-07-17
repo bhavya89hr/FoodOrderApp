@@ -62,15 +62,12 @@ fun profileEdit(
     email: String?,
     name: String?,
     MobileNo: String?,
-    Address: String?,
+    address: String?,
     navController: NavController,
     onValueChange: (String)-> Unit={}
 
 ){
     val value= remember {
-        mutableStateOf("")
-    }
-    val Address= remember {
         mutableStateOf("")
     }
 
@@ -101,6 +98,10 @@ fun profileEdit(
         value.value.trim().isNotEmpty()
 
     }
+    val Address= remember {
+        mutableStateOf("")
+    }
+
     val keyboardController= LocalSoftwareKeyboardController.current
     val context = LocalContext.current
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
@@ -122,8 +123,7 @@ fun profileEdit(
             Row(modifier = Modifier.fillMaxWidth().padding(16.dp,0.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 Image(imageVector = Icons.Default.PlayArrow, contentDescription = "", modifier = Modifier.clickable {
-navController.navigate("ProfileScreen")
-                }
+                    navController.popBackStack()                }
                     .rotate(180f),
                     colorFilter = ColorFilter.tint(Color.Black))
                 Spacer(modifier = Modifier.width(10.dp))
@@ -142,7 +142,8 @@ navController.navigate("ProfileScreen")
 //                    Text(text="Forgot password?", modifier = Modifier.fillMaxWidth().clickable {  }, textAlign = TextAlign.End,fontSize = 18.sp)
                     Box(
                         modifier = Modifier
-                            .size(120.dp)
+                            .size(110.dp)
+                            .clip(CircleShape)
                             .clickable { launcher.launch("image/*") } // Launch gallery on click
                     ) {
                         if (selectedImageUri != null) {
@@ -152,8 +153,8 @@ navController.navigate("ProfileScreen")
                                 contentDescription = "Selected Profile Picture",
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
+
+
                             )
                         } else {
                             // Default Image if no image selected
@@ -167,23 +168,12 @@ navController.navigate("ProfileScreen")
                             )
                         }
 
-                        // Pencil Icon
-                        Image(
-                            painter = painterResource(id = R.drawable.pencil),
-                            contentDescription = "Edit Icon",
-                            modifier = Modifier
-                                .size(40.dp)
-                                .align(Alignment.BottomEnd)
-                                .clip(CircleShape)
-                                .background(Color.White),
-                            contentScale = ContentScale.Crop
-                        )
                     }
+
                 }
 
-
             }
-
+            Text(text="click to edit your profile picture",fontSize = 15.sp,  color = Color.Black)
             Column(modifier = Modifier.fillMaxSize().padding(20.dp,10.dp)) {
                 Spacer(modifier = Modifier.height(13.dp))
                 Text(text="Full Name",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
@@ -225,24 +215,7 @@ navController.navigate("ProfileScreen")
 
                     })
                 Spacer(modifier = Modifier.height(13.dp))
-                Text(text="Address",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
-                Spacer(modifier = Modifier.height(13.dp))
 
-                InputFields(
-                    valueState =Address,
-                    labelId =  "" ,
-                    enabled =true ,
-                    modifier = Modifier.
-                    padding(20.dp)
-                    ,
-                    isSingleLine =true ,
-                    onAction = KeyboardActions{
-                        if(!validState)return@KeyboardActions
-                        onValueChange(Email.value.trim())
-                        keyboardController?.hide()
-
-                    })
-                Spacer(modifier = Modifier.height(13.dp))
                 Text(text="Mobile Number",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
                 Spacer(modifier = Modifier.height(13.dp))
                 InputFields(
@@ -263,6 +236,24 @@ navController.navigate("ProfileScreen")
 
                     })
                 Spacer(modifier = Modifier.height(13.dp))
+                Text(text="Address",fontSize = 22.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
+                Spacer(modifier = Modifier.height(13.dp))
+
+                InputFields(
+                    valueState =Address,
+                    labelId =  "" ,
+                    enabled =true ,
+                    modifier = Modifier.
+                    padding(20.dp)
+                    ,
+                    isSingleLine =true ,
+                    onAction = KeyboardActions{
+                        if(!validState)return@KeyboardActions
+                        onValueChange(Email.value.trim())
+                        keyboardController?.hide()
+
+                    })
+                Spacer(modifier = Modifier.height(13.dp))
             }
             Button(onClick = {
                 navController.previousBackStackEntry?.savedStateHandle?.set("name", value.value)
@@ -271,7 +262,7 @@ navController.navigate("ProfileScreen")
                 navController.previousBackStackEntry?.savedStateHandle?.set("address", Address.value)
 
                 // Navigate back
-                navController.popBackStack()
+                navController.navigate("ProfileScreen")
             }, modifier = Modifier.width(150.dp)
                 .height(50.dp)
 

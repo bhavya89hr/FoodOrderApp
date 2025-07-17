@@ -19,22 +19,22 @@ import com.bhavya.foodorder.screens.profileScreen.profileScreen
             val name = savedStateHandle.get<String>("name") ?: "Prince"
             val email = savedStateHandle.get<String>("email") ?: "PrinceBeniwal@gmail.com"
             val mobile = savedStateHandle.get<String>("mobile") ?: "+8973874962"
-            val Address= savedStateHandle.get<String>("Address") ?:"Sonipat,Harayana"
+            val address= savedStateHandle.get<String>("address") ?:"Sonipat,Harayana"
 
-            profileScreen(navController, name, email, mobile, Address   )
+            profileScreen(navController, name, email, mobile, address  )
         }
         val profileRoute=profileNav.ProfileEdit.name
-        composable(route= "$profileRoute/{name}/{email}/{mobileNo}/{Address}",
+        composable(route= "$profileRoute/{name}/{email}/{mobileNo}/{address}",
             arguments = listOf(navArgument("email") { type= NavType.StringType },
                 navArgument("name") { type= NavType.StringType },
                         navArgument("mobileNo") { type= NavType.StringType },
-                navArgument("Address") { type= NavType.StringType }
+                navArgument("address") { type= NavType.StringType }
               )) {
             val  email = it.arguments?.getString("email")
             val name = it.arguments?.getString("name")
-            val Address = it.arguments?.getString("Address")
+            val address = it.arguments?.getString("address")
             val mobileNo = it.arguments?.getString("mobileNo")
-            profileEdit(email,name,mobileNo,Address,navController)
+            profileEdit(email,name,mobileNo,address,navController)
 
         }
 

@@ -31,6 +31,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +49,7 @@ import androidx.navigation.NavController
 @Composable
 fun profileScreen(navController: NavController, name: String, email: String, mobile: String,address: String) {
     Surface(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+
         Column(
             modifier = Modifier.fillMaxSize().background(color = Color.LightGray)
                 .padding(30.dp, 20.dp),
@@ -94,7 +96,8 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                 modifier = Modifier
                     .height(200.dp).fillMaxWidth().padding(0.dp, 10.dp),
                 colors = CardDefaults.cardColors(containerColor = Color.White),
-                shape = RoundedCornerShape(25.dp)
+                shape = RoundedCornerShape(25.dp),
+                elevation = CardDefaults.elevatedCardElevation(3.dp)
             ) {
                 Row {
                     Box(modifier = Modifier.height(125.dp).width(125.dp)) {
@@ -122,9 +125,9 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
             Column {
               options.forEach {
                   text->
-                  Card(modifier = Modifier.height(90.dp).fillMaxWidth().padding(0.dp,10.dp), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(25.dp)) {
+                  Card(modifier = Modifier.height(70.dp).fillMaxWidth().padding(0.dp,10.dp), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(25.dp)) {
            Row(modifier = Modifier.fillMaxSize().padding(5.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                   Text(text = text, fontSize = 25.sp, fontWeight = FontWeight.SemiBold)
+                   Text(text = text, fontSize = 22.sp, fontWeight = FontWeight.SemiBold,modifier = Modifier.padding(10.dp,0.dp))
                Icon(
                    imageVector = Icons.Default.PlayArrow,
                    contentDescription = null,
@@ -136,6 +139,7 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
            }
                   }
               }
+                Spacer(modifier = Modifier.height(30.dp))
                 Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Red), modifier = Modifier.fillMaxWidth().height(50.dp), shape =  RoundedCornerShape(25.dp)) {
                     Text(text = "Update", fontSize = 20.sp)
                 }
