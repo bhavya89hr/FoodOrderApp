@@ -31,6 +31,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +57,7 @@ fun CartScreen(navController: NavController) {
             .fillMaxSize()
             .background(color = Color(0xFFEFEEEE).copy(alpha = 0.6f))
     ) {
+     var count=remember { mutableStateOf(1) }
         Box(modifier = Modifier.fillMaxSize()) {
             // Content Column
             Column(
@@ -149,9 +153,9 @@ fun CartScreen(navController: NavController) {
                                     verticalAlignment = Alignment.CenterVertically,
                                     horizontalArrangement = Arrangement.SpaceAround
                                 ) {
-                                    Text(text = "+", fontSize = 20.sp, color = Color.White)
-                                    Text(text = "1", fontSize = 19.sp, color = Color.White)
-                                    Text(text = "-", fontSize = 20.sp, color = Color.White)
+                                    Text(text = "+", fontSize = 20.sp, color = Color.White, modifier = Modifier.clickable{count.value=count.value+1})
+                                    Text(text = count.value.toString(), fontSize = 19.sp, color = Color.White)
+                                    Text(text = "-", fontSize = 20.sp, color = Color.White,modifier = Modifier.clickable{count.value=count.value-1} )
                                 }
                             }
                         }

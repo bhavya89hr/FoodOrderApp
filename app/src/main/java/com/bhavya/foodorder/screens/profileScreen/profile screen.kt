@@ -21,6 +21,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -60,13 +62,13 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                 listOf("orders", "pending reviews", "Faq", "Help")
             }
             Icon(
-                imageVector = Icons.Default.PlayArrow,
+                imageVector = Icons.Default.KeyboardArrowLeft,
                 contentDescription = null,
                 tint = Color.Black,
                 modifier = Modifier
-
+                    .clickable{navController.navigate("home")}
                     .padding(0.dp, 50.dp)
-                    .rotate(180f)
+
                     .size(30.dp)
             )
             Text(
@@ -100,14 +102,14 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                 elevation = CardDefaults.elevatedCardElevation(3.dp)
             ) {
                 Row {
-                    Box(modifier = Modifier.height(125.dp).width(125.dp)) {
+                    Box(modifier = Modifier.height(125.dp).width(125.dp).padding(15.dp).clip(RoundedCornerShape(10.dp))) {
                         Image(
-                            painter = painterResource(id = R.drawable.img),
+                            painter = painterResource(id = R.drawable.imgg),
                             contentDescription = "Default Profile Picture",
                             modifier = Modifier
                                 .fillMaxSize()
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
+
+
                         )
                     }
                     Spacer(modifier = Modifier.width(20.dp))
@@ -125,11 +127,11 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
             Column {
               options.forEach {
                   text->
-                  Card(modifier = Modifier.height(70.dp).fillMaxWidth().padding(0.dp,10.dp), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(25.dp)) {
-           Row(modifier = Modifier.fillMaxSize().padding(5.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                   Text(text = text, fontSize = 22.sp, fontWeight = FontWeight.SemiBold,modifier = Modifier.padding(10.dp,0.dp))
+                  Card(modifier = Modifier.height(80.dp).fillMaxWidth().padding(0.dp,10.dp), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(20.dp)) {
+           Row(modifier = Modifier.fillMaxSize().padding(15.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                   Text(text = text, fontSize = 22.sp, fontWeight = FontWeight.W500,modifier = Modifier.padding(10.dp,0.dp))
                Icon(
-                   imageVector = Icons.Default.PlayArrow,
+                   imageVector = Icons.Default.KeyboardArrowRight,
                    contentDescription = null,
                    tint = Color.Black,
                    modifier = Modifier
@@ -140,7 +142,7 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                   }
               }
                 Spacer(modifier = Modifier.height(30.dp))
-                Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Red), modifier = Modifier.fillMaxWidth().height(50.dp), shape =  RoundedCornerShape(25.dp)) {
+                Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Red), modifier = Modifier.fillMaxWidth().height(55.dp), shape =  RoundedCornerShape(20.dp)) {
                     Text(text = "Update", fontSize = 20.sp)
                 }
             }

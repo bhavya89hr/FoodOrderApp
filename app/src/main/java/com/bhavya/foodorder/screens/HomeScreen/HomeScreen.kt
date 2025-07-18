@@ -1,6 +1,8 @@
 package com.bhavya.foodorder.screens.HomeScreen
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,7 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -34,24 +36,46 @@ import coil.compose.AsyncImage
 import com.bhavya.foodorder.ViewModel.FoodViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Person
+import androidx.compose.material.icons.outlined.Refresh
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.dataclass.FoodItem
+import com.bhavya.foodorder.screens.DrawerScreeen.DrawerFun
+import com.bhavya.foodorder.screens.DrawerScreeen.DrawerItems
+import com.bhavya.foodorder.screens.profileScreen.Navigation.ProfileNav
+import kotlinx.coroutines.launch
 
 val LightGrayCustom = Color(0xFFEFEEEE).copy(alpha = 0.6f)
 
@@ -59,84 +83,119 @@ val LightGrayCustom = Color(0xFFEFEEEE).copy(alpha = 0.6f)
 @Composable
 fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavController ) {
     var selectedCategory by remember { mutableStateOf("Food") }
-    val categories = listOf( "Food", "Snacks", "Drinks", "Desserts")
+    val categories = listOf("Food", "Snacks", "Drinks", "Desserts")
     val foodItems = viewModel.foodItems
     val isLoading = viewModel.isLoading
     val errorMessage = viewModel.errorMessage
     var searchQuery by remember { mutableStateOf("") }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { /* No title as per your screenshot */ },
-                navigationIcon = {
-                    IconButton(onClick = { /* TODO: open drawer or menu */ },  modifier = Modifier.padding(start = 12.dp)) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.vector), // Replace with your icon
-                            contentDescription = "Menu", modifier = Modifier.size(20.dp)
-                        )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+
+    ModalNavigationDrawer(
+        drawerContent = {
+            DrawerFun { item ->
+                scope.launch { drawerState.close() }
+                when (item) {
+                    DrawerItems.profile -> { /* Navigate or Handle */
                     }
-                },
-                actions = {
-                    IconButton(onClick = { navController.navigate("Cart") }, modifier = Modifier.padding(end = 12.dp)) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.vector1), // Replace with your icon
-                            contentDescription = "Cart",
-                            tint = Color.LightGray,
-                            modifier = Modifier.size(26.dp)
-                        )
+
+                    DrawerItems.Orders -> { /* Navigate */
                     }
-                },
 
-            )
-        },
-
-        floatingActionButton = {
-        FloatingActionButton(
-            onClick = {
-                // Define what happens when it's clicked
-                navController.navigate("ChatBot")
-            },
-            containerColor = Color.Red,
-            contentColor = Color.White,
-            shape = RoundedCornerShape(50),
-            modifier = Modifier.size(80.dp).clickable{navController.navigate("ChatBot")}
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.options), // 🔁 Replace with your FAB image
-                contentDescription = "FAB Icon",
-                modifier = Modifier.size(30.dp)
-            )
-        }
-    },
-        content = { paddingValues ->
-            // Your screen content goes here
-            Box(modifier = Modifier.padding(paddingValues)) {
-                // Main content
-                Column (modifier = Modifier.padding(30.dp)){
-                    Text(text="Delicious \n\nFood For You", fontSize = 40.sp,
-                        fontWeight = FontWeight.W900, color = Color.Black)
-                    Spacer(Modifier.height(8.dp))
-                    SearchBar(
-                        query = searchQuery,
-                        onQueryChange = { searchQuery = it }
-                    )
-                    Spacer(Modifier.height(38.dp))
-                    CategoryList(
-                        categories = categories,
-                        selectedCategory = selectedCategory,
-                        onCategorySelected = { selectedCategory = it }
-                    )
-
-
-
+                    DrawerItems.SignOut -> { /* Handle Sign-out */
+                    }
+                    // Add navigation or logic as needed
+                    else -> {}
                 }
             }
-        }
-    )
+        },
+        drawerState = drawerState
+    ) {
+        Scaffold(
+            bottomBar = {
+                Column(modifier = Modifier.padding(0.dp,50.dp)) {
+
+                  Bottombar(navController)
+                }
+            }
+           , topBar = {
+                TopAppBar(
+                    title = { /* No title as per your screenshot */ },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {scope.launch { drawerState.open() }},
+                            modifier = Modifier.padding(start = 12.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.vector), // Replace with your icon
+                                contentDescription = "Menu", modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = { navController.navigate("Cart") },
+                            modifier = Modifier.padding(end = 12.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.vector1), // Replace with your icon
+                                contentDescription = "Cart",
+                                tint = Color.LightGray,
+                                modifier = Modifier.size(26.dp)
+                            )
+                        }
+                    },
+
+                    )
+            },
+
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick = {
+                        // Define what happens when it's clicked
+                        navController.navigate("ChatBot")
+                    },
+                    containerColor = Color.Red,
+                    contentColor = Color.White,
+                    shape = RoundedCornerShape(50),
+                    modifier = Modifier.size(80.dp).clickable { navController.navigate("ChatBot") }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.options), // 🔁 Replace with your FAB image
+                        contentDescription = "FAB Icon",
+                        modifier = Modifier.size(30.dp)
+                    )
+                }
+            },
+            content = { paddingValues ->
+                // Your screen content goes here
+                Box(modifier = Modifier.padding(paddingValues)) {
+                    // Main content
+                    Column(modifier = Modifier.padding(30.dp,20.dp)) {
+                        Text(
+                            text = "Delicious \n\nFood For You", fontSize = 40.sp,
+                            fontWeight = FontWeight.W900, color = Color.Black
+                        )
+                        Spacer(Modifier.height(8.dp))
+                        SearchBar(
+                            query = searchQuery,
+                            onQueryChange = { searchQuery = it }
+                        )
+                        Spacer(Modifier.height(38.dp))
+                        CategoryList(
+                            categories = categories,
+                            selectedCategory = selectedCategory,
+                            onCategorySelected = { selectedCategory = it }
+                        )
+
+
+                    }
+                }
+            }
+        )
+    }
 }
-
-
 
 @Composable
 fun SearchBar(
@@ -209,6 +268,40 @@ fun CategoryList(
         }
     }
 }
+
+sealed class bottomItems(val icon1: ImageVector,val icon2: ImageVector,val id: String){
+   object Home: bottomItems(Icons.Outlined.Home, Icons.Filled.Home,"home")
+    object fav: bottomItems(Icons.Outlined.FavoriteBorder,Icons.Filled.Favorite,"fav")
+    object Profile: bottomItems(Icons.Outlined.Person,Icons.Filled.Person,"profile")
+    object History: bottomItems(Icons.Outlined.Refresh,Icons.Filled.Refresh,"history")
+}
+
+
+@Composable
+fun Bottombar(navController: NavController,
+           ){
+
+val items=listOf(
+    bottomItems.Home,
+    bottomItems.fav,
+    bottomItems.Profile,
+    bottomItems.History
+)
+    var SelectedItems by remember { mutableStateOf("home") }
+    Row(modifier = Modifier.fillMaxWidth().height(30.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly) {
+items.forEach {item->
+val isSelected=item.id==SelectedItems
+    Image(imageVector = if (isSelected)item.icon2 else item.icon1, contentDescription = "",modifier = Modifier.size(31.dp).clickable{SelectedItems=item.id
+    when (item.id){
+        "home"->navController.navigate("home")
+        "profile"->navController.navigate("profile")
+    }
+    }.then(if (isSelected) Modifier.shadow(30.dp,RoundedCornerShape(50)) else Modifier), colorFilter = ColorFilter.tint(if (isSelected) Color.Red else Color.Black))
+}
+
+    }
+    }
+
 
 
 
