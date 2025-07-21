@@ -1,5 +1,6 @@
 package com.bhavya.foodorder.screens.HomeScreen
 
+import android.R.attr.onClick
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -35,6 +36,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.bhavya.foodorder.ViewModel.FoodViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -70,6 +72,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.dataclass.FoodItem
 import com.bhavya.foodorder.screens.DrawerScreeen.DrawerFun
@@ -188,10 +191,33 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
                             selectedCategory = selectedCategory,
                             onCategorySelected = { selectedCategory = it }
                         )
+                        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+
+
+                            Spacer(modifier = Modifier.height(12.dp))
+
+                            if (isLoading) {
+                                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
+                            } else if (!errorMessage.isNullOrEmpty()) {
+                                Text(
+                                    text = errorMessage,
+                                    color = Color.Red,
+                                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                                )
+                            } else {
+                                LazyRow {
+                                    items(foodItems) { item ->
+                                        FoodItemCard(foodItem = item)
+                                        {navController.navigate("detail/${item.name}/${item.price}")}
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
 
                     }
-                }
+
             }
         )
     }
@@ -301,6 +327,51 @@ val isSelected=item.id==SelectedItems
 
     }
     }
+
+
+@Composable
+fun FoodItemCard(foodItem: FoodItem,onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .width(180.dp)
+            .padding(8.dp).clickable { onClick() },
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(12.dp)
+        ) {
+            AsyncImage(
+                model = "https://images.unsplash.com/photo-1600891964599-f61ba0e24092",
+                contentDescription = foodItem.name,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(120.dp)
+                    .clip(CircleShape)
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = foodItem.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "₦${foodItem.price.toInt()}",
+                color = Color(0xFFFF5722),
+                fontWeight = FontWeight.Bold,
+                fontSize = 15.sp
+            )
+        }
+    }
+}
+
 
 
 

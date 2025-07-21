@@ -1,5 +1,6 @@
 package com.bhavya.foodorder.navigation
 
+import FoodDetailScreen
 import android.appwidget.AppWidgetProvider
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
@@ -39,6 +40,17 @@ fun FoNavigation(){
         }
         composable(AppScreens.ChatBotScreen.route) {
             ChatBotScreen(navController=navController)
+        }
+        composable(
+            route = "detail/{name}/{price}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType },
+                navArgument("price") { type = NavType.StringType } // You can also use DoubleType if passing double properly
+            )
+        ) { backStackEntry ->
+            val name = backStackEntry.arguments?.getString("name") ?: ""
+            val price = backStackEntry.arguments?.getString("price")?.toDoubleOrNull() ?: 0.0
+            FoodDetailScreen(name = name, price = price)
         }
         composable(AppScreens.ProfileScreen.route) { backStackEntry ->
             val savedStateHandle = backStackEntry.savedStateHandle
