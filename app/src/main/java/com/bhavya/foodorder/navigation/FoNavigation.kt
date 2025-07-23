@@ -3,12 +3,15 @@ package com.bhavya.foodorder.navigation
 import FoodDetailScreen
 import android.appwidget.AppWidgetProvider
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bhavya.foodorder.ViewModel.CartViewModel
 import com.bhavya.foodorder.screens.CartScreen.CartScreen
 import com.bhavya.foodorder.screens.ChatBotScreen.ChatBotScreen
 import com.bhavya.foodorder.screens.GetStarted
@@ -21,9 +24,11 @@ import com.bhavya.foodorder.screens.profileScreen.profileScreen
 
 @Composable
 fun FoNavigation(){
-    val navController= rememberNavController()
-    NavHost(navController=navController, startDestination = AppScreens.HomeScreen.route){
 
+    val navController= rememberNavController()
+    val cartviewmodel: CartViewModel= viewModel()
+
+    NavHost(navController=navController, startDestination = AppScreens.HomeScreen.route){
         composable (AppScreens.GetStarted.route){
             GetStarted(navController)
         }
@@ -33,10 +38,14 @@ fun FoNavigation(){
         }
         composable (AppScreens.HomeScreen.route){
             HomeScreen(
-                navController=navController)
+             navController=navController,
+        cartViewModel = cartviewmodel
+            )
         }
-        composable(AppScreens.CartScreen.route) {
-            CartScreen(navController)
+        val CartScrreenRoute=AppScreens.CartScreen.route
+        composable(CartScrreenRoute) {
+            CartScreen(navController,
+                cartViewModel = cartviewmodel)
         }
         composable(AppScreens.ChatBotScreen.route) {
             ChatBotScreen(navController=navController)
