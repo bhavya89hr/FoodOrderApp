@@ -45,22 +45,28 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.R
+import com.bhavya.foodorder.ViewModel.CartViewModel
 
 
 @Composable
 
-fun CartScreen(navController: NavController) {
+fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
+    val cartItems = cartViewModel.cartItems
     Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color(0xFFEFEEEE).copy(alpha = 0.6f))
     ) {
-     var count=remember { mutableStateOf(1) }
+
         Box(modifier = Modifier.fillMaxSize()) {
             // Content Column
             Column(
+
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(20.dp, 50.dp, 20.dp, 100.dp)
@@ -78,7 +84,7 @@ fun CartScreen(navController: NavController) {
                     Icon(
                         imageVector = Icons.Default.KeyboardArrowLeft,
                         contentDescription = "",
-                        modifier = Modifier.size(35.dp).clickable{
+                        modifier = Modifier.size(35.dp).clickable {
                             navController.navigate("home")
                         }
                     )
@@ -94,92 +100,111 @@ fun CartScreen(navController: NavController) {
 
                 Text(text = "Swipe on item to delete", fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(30.dp))
-
-                Card(
-                    modifier = Modifier
-                        .height(150.dp)
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    shape = RoundedCornerShape(25.dp),
-                    elevation = CardDefaults.elevatedCardElevation(5.dp)
-                ) {
-                    Row(modifier = Modifier.padding(10.dp)) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(90.dp)
-                                .align(Alignment.CenterVertically)
-                        ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.img),
-                                contentDescription = "Default Profile Picture",
-                                modifier = Modifier
-                                    .size(90.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
-                            )
-                        }
-                        Spacer(modifier = Modifier.width(20.dp))
-                        Column(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .width(205.dp)
-                                .padding(vertical = 5.dp)
-                                .verticalScroll(rememberScrollState())
-                        ) {
-                            Text(
-                                text = "veggies tomato mix",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 22.sp
-                            )
-                            Spacer(modifier = Modifier.height(5.dp))
-                            Text(
-                                text = " ₹1990",
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 22.sp,
-                                color = Color.Red
-                            )
-                            Box(
-                                modifier = Modifier
-                                    .height(25.dp)
-                                    .width(60.dp)
-                                    .clip(RoundedCornerShape(20.dp))
-                                    .background(color = Color.Red)
-                                    .align(Alignment.End)
-                            ) {
-                                Row(
-                                    modifier = Modifier.fillMaxSize(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceAround
-                                ) {
-                                    Text(text = "+", fontSize = 20.sp, color = Color.White, modifier = Modifier.clickable{count.value=count.value+1})
-                                    Text(text = count.value.toString(), fontSize = 19.sp, color = Color.White)
-                                    Text(text = "-", fontSize = 20.sp, color = Color.White,modifier = Modifier.clickable{count.value=count.value-1} )
-                                }
-                            }
-                        }
-                    }
-                }
-                Spacer(        modifier = Modifier.height(400.dp))
-                Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
-                    shape = RoundedCornerShape(25.dp),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
+               Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                   cartItems.forEach {food->
+                       var count = remember { mutableStateOf(1) }
+                       Card(
+                           modifier = Modifier
+                               .height(150.dp)
+                               .fillMaxWidth()
+                               .padding(vertical = 10.dp),
+                           colors = CardDefaults.cardColors(containerColor = Color.White),
+                           shape = RoundedCornerShape(25.dp),
+                           elevation = CardDefaults.elevatedCardElevation(5.dp)
+                       ) {
+                           Row(modifier = Modifier.padding(10.dp)) {
+                               Box(
+                                   modifier = Modifier
+                                       .fillMaxHeight()
+                                       .width(90.dp)
+                                       .align(Alignment.CenterVertically)
+                               ) {
+                                   Image(
+                                       painter = painterResource(id = R.drawable.img),
+                                       contentDescription = "Default Profile Picture",
+                                       modifier = Modifier
+                                           .size(90.dp)
+                                           .clip(CircleShape),
+                                       contentScale = ContentScale.Crop
+                                   )
+                               }
+                               Spacer(modifier = Modifier.width(20.dp))
+                               Column(
+                                   modifier = Modifier
+                                       .fillMaxHeight()
+                                       .width(205.dp)
+                                       .padding(vertical = 5.dp)
+                                       .verticalScroll(rememberScrollState())
+                               ) {
+                                   Text(
+                                       text = food.name,
+                                       fontWeight = FontWeight.SemiBold,
+                                       fontSize = 22.sp
+                                   )
+                                   Spacer(modifier = Modifier.height(5.dp))
+                                   Text(
+                                       text = food.price.toString(),
+                                       fontWeight = FontWeight.SemiBold,
+                                       fontSize = 22.sp,
+                                       color = Color.Red
+                                   )
+                                   Box(
+                                       modifier = Modifier
+                                           .height(25.dp)
+                                           .width(60.dp)
+                                           .clip(RoundedCornerShape(20.dp))
+                                           .background(color = Color.Red)
+                                           .align(Alignment.End)
+                                   ) {
+                                    Row(
+                                        modifier = Modifier.fillMaxSize(),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceAround
+                                    ) {
+                                        Text(
+                                            text = "+",
+                                            fontSize = 20.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.clickable {
+                                                count.value = count.value + 1
+                                            })
+                                        Text(
+                                            text = count.value.toString(),
+                                            fontSize = 19.sp,
+                                            color = Color.White
+                                        )
+                                        Text(
+                                            text = "-",
+                                            fontSize = 20.sp,
+                                            color = Color.White,
+                                            modifier = Modifier.clickable {
+                                                count.value = count.value - 1
+                                            })
+                                    }
+                                   }
+                               }
+                           }
+                       }
+               }
+                    Spacer(modifier = Modifier.height(50.dp))
+                    Button(
+                        onClick = {},
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                        shape = RoundedCornerShape(25.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp)
 
 //                        .align(Alignment.BottomCenter) // ✅ Works correctly here
-                ) {
-                    Text(text = "Update", fontSize = 20.sp)
+                    ) {
+                        Text(text = "Update", fontSize = 20.sp)
+                    }
                 }
+
+
+
+
             }
-
-            // ✅ Bottom-aligned Button outside Column
-
-
         }
     }
 }
-
