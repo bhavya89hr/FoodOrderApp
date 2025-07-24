@@ -59,6 +59,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -200,7 +201,8 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
                         Spacer(Modifier.height(8.dp))
                         SearchBar(
                             query = searchQuery,
-                            onQueryChange = { searchQuery = it }
+                            onQueryChange = { searchQuery = it },
+
                         )
                         Spacer(Modifier.height(38.dp))
                         CategoryList(
@@ -211,6 +213,12 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
                         val filteredItems = FoodItems.filter {
                             it.category.equals(selectedCategory, ignoreCase = true) &&
                                     it.name.contains(searchQuery, ignoreCase = true)
+                        }
+                        LaunchedEffect(searchQuery) {
+                            if (searchQuery.isNotBlank()) {
+                                navController.currentBackStackEntry?.savedStateHandle?.set("searchResults", filteredItems)
+                                navController.navigate("search_results")
+                            }
                         }
                         if (filteredItems.isEmpty()) {
                             Text(

@@ -11,12 +11,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bhavya.foodorder.DataManager
+import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.ViewModel.CartViewModel
 import com.bhavya.foodorder.screens.CartScreen.CartScreen
 import com.bhavya.foodorder.screens.ChatBotScreen.ChatBotScreen
 import com.bhavya.foodorder.screens.GetStarted
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.LoginScreen.LoginScreen
+import com.bhavya.foodorder.screens.SearchScreen.SearchResultScreen
 import com.bhavya.foodorder.screens.profileScreen.Navigation.profileNav
 import com.bhavya.foodorder.screens.profileScreen.profileEdit
 import com.bhavya.foodorder.screens.profileScreen.profileScreen
@@ -24,7 +27,7 @@ import com.bhavya.foodorder.screens.profileScreen.profileScreen
 
 @Composable
 fun FoNavigation(){
-
+  val foodItems= DataManager.data.toList()
     val navController= rememberNavController()
     val cartviewmodel: CartViewModel= viewModel()
 
@@ -84,7 +87,17 @@ fun FoNavigation(){
             profileEdit(email,name,mobileNo,address,navController)
 
         }
+        composable(AppScreens.SearchScreen.route) { backStackEntry ->
+            val results = backStackEntry.savedStateHandle.get<List<FoodItems>>("searchResults") ?: emptyList()
+            SearchResultScreen(
+                navController = navController,
+                query = "",
+                results = results,
+                onItemClick = { food ->
 
+                }
+            )
+        }
 
     }
 

@@ -51,12 +51,19 @@ import androidx.navigation.NavController
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.rememberDismissState
 
-
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 
 fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
     val cartItems = cartViewModel.cartItems
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -100,91 +107,124 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
 
                 Text(text = "Swipe on item to delete", fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(30.dp))
+
                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
                    cartItems.forEach {food->
                        var count = remember { mutableStateOf(1) }
-                       Card(
-                           modifier = Modifier
-                               .height(150.dp)
-                               .fillMaxWidth()
-                               .padding(vertical = 10.dp),
-                           colors = CardDefaults.cardColors(containerColor = Color.White),
-                           shape = RoundedCornerShape(25.dp),
-                           elevation = CardDefaults.elevatedCardElevation(5.dp)
-                       ) {
-                           Row(modifier = Modifier.padding(10.dp)) {
+                       val dismissState = rememberDismissState(
+                           confirmStateChange = {
+                               if (it == DismissValue.DismissedToStart ) {
+                                   cartViewModel.removeFromCart(food)  // Remove from cart
+                                   true
+                               } else false
+                           }
+                       )
+
+                       SwipeToDismiss(
+                           state = dismissState,
+                           directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+                           background = {
                                Box(
                                    modifier = Modifier
-                                       .fillMaxHeight()
-                                       .width(90.dp)
-                                       .align(Alignment.CenterVertically)
+                                       .fillMaxSize()
+                                       .background(Color.White)
+                                       .padding(20.dp),
+                                   contentAlignment = Alignment.CenterEnd
                                ) {
-                                   Image(
-                                       painter = painterResource(id = R.drawable.img),
-                                       contentDescription = "Default Profile Picture",
-                                       modifier = Modifier
-                                           .size(90.dp)
-                                           .clip(CircleShape),
-                                       contentScale = ContentScale.Crop
+                                   Icon(
+                                       imageVector = Icons.Outlined.Delete,
+                                       contentDescription = "Delete",
+                                       tint = Color.Red,
+                                       modifier = Modifier.size(30.dp)
                                    )
                                }
-                               Spacer(modifier = Modifier.width(20.dp))
-                               Column(
+                           },
+                           dismissContent = {
+                               Card(
                                    modifier = Modifier
-                                       .fillMaxHeight()
-                                       .width(205.dp)
-                                       .padding(vertical = 5.dp)
-                                       .verticalScroll(rememberScrollState())
+                                       .height(150.dp)
+                                       .fillMaxWidth()
+                                       .padding(vertical = 10.dp),
+                                   colors = CardDefaults.cardColors(containerColor = Color.White),
+                                   shape = RoundedCornerShape(25.dp),
+                                   elevation = CardDefaults.elevatedCardElevation(5.dp)
                                ) {
-                                   Text(
-                                       text = food.name,
-                                       fontWeight = FontWeight.SemiBold,
-                                       fontSize = 22.sp
-                                   )
-                                   Spacer(modifier = Modifier.height(5.dp))
-                                   Text(
-                                       text = food.price.toString(),
-                                       fontWeight = FontWeight.SemiBold,
-                                       fontSize = 22.sp,
-                                       color = Color.Red
-                                   )
-                                   Box(
-                                       modifier = Modifier
-                                           .height(25.dp)
-                                           .width(60.dp)
-                                           .clip(RoundedCornerShape(20.dp))
-                                           .background(color = Color.Red)
-                                           .align(Alignment.End)
-                                   ) {
-                                    Row(
-                                        modifier = Modifier.fillMaxSize(),
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.SpaceAround
-                                    ) {
-                                        Text(
-                                            text = "+",
-                                            fontSize = 20.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.clickable {
-                                                count.value = count.value + 1
-                                            })
-                                        Text(
-                                            text = count.value.toString(),
-                                            fontSize = 19.sp,
-                                            color = Color.White
-                                        )
-                                        Text(
-                                            text = "-",
-                                            fontSize = 20.sp,
-                                            color = Color.White,
-                                            modifier = Modifier.clickable {
-                                                count.value = count.value - 1
-                                            })
-                                    }
+                                   Row(modifier = Modifier.padding(10.dp)) {
+                                       Box(
+                                           modifier = Modifier
+                                               .fillMaxHeight()
+                                               .width(90.dp)
+                                               .align(Alignment.CenterVertically)
+                                       ) {
+                                           Image(
+                                               painter = painterResource(id = R.drawable.img),
+                                               contentDescription = "Default Profile Picture",
+                                               modifier = Modifier
+                                                   .size(90.dp)
+                                                   .clip(CircleShape),
+                                               contentScale = ContentScale.Crop
+                                           )
+                                       }
+                                       Spacer(modifier = Modifier.width(20.dp))
+                                       Column(
+                                           modifier = Modifier
+                                               .fillMaxHeight()
+                                               .width(205.dp)
+                                               .padding(vertical = 5.dp)
+                                               .verticalScroll(rememberScrollState())
+                                       ) {
+                                           Text(
+                                               text = food.name,
+                                               fontWeight = FontWeight.SemiBold,
+                                               fontSize = 22.sp
+                                           )
+                                           Spacer(modifier = Modifier.height(5.dp))
+                                           Text(
+                                               text = food.price.toString(),
+                                               fontWeight = FontWeight.SemiBold,
+                                               fontSize = 22.sp,
+                                               color = Color.Red
+                                           )
+                                           Box(
+                                               modifier = Modifier
+                                                   .height(25.dp)
+                                                   .width(60.dp)
+                                                   .clip(RoundedCornerShape(20.dp))
+                                                   .background(color = Color.Red)
+                                                   .align(Alignment.End)
+                                           ) {
+                                               Row(
+                                                   modifier = Modifier.fillMaxSize(),
+                                                   verticalAlignment = Alignment.CenterVertically,
+                                                   horizontalArrangement = Arrangement.SpaceAround
+                                               ) {
+                                                   Text(
+                                                       text = "+",
+                                                       fontSize = 20.sp,
+                                                       color = Color.White,
+                                                       modifier = Modifier.clickable {
+                                                           count.value = count.value + 1
+                                                       })
+                                                   Text(
+                                                       text = count.value.toString(),
+                                                       fontSize = 19.sp,
+                                                       color = Color.White
+                                                   )
+                                                   Text(
+                                                       text = "-",
+                                                       fontSize = 20.sp,
+                                                       color = Color.White,
+                                                       modifier = Modifier.clickable {
+                                                           count.value = count.value - 1
+                                                       })
+                                               }
+                                           }
+                                       }
                                    }
                                }
                            }
-                       }
+                       )
+
                }
                     Spacer(modifier = Modifier.height(50.dp))
                     Button(

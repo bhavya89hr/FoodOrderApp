@@ -95,4 +95,6 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
 //coil
     implementation("io.coil-kt:coil-compose:2.5.0")
+
+    implementation ("androidx.compose.material:material:1.6.1")
 }

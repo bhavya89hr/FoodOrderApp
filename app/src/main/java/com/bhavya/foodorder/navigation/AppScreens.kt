@@ -7,5 +7,6 @@ enum class AppScreens(val route: String) {
     HomeScreen("home"),
     CartScreen("Cart"),
     ChatBotScreen("ChatBot"),
-    ProfileScreen("profile")
+    ProfileScreen("profile"),
+    SearchScreen("Search")
 }
