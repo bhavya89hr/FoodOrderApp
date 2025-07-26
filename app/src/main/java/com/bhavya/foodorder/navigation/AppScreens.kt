@@ -8,5 +8,6 @@ enum class AppScreens(val route: String) {
     CartScreen("Cart"),
     ChatBotScreen("ChatBot"),
     ProfileScreen("profile"),
-    SearchScreen("Search")
+    SearchScreen("Search"),
+    FavouriteScreen("Fav")
 }

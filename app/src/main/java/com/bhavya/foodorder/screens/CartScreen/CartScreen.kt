@@ -56,7 +56,9 @@ import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.rememberDismissState
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -103,17 +105,35 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
 
-                Text(text = "Swipe on item to delete", fontWeight = FontWeight.SemiBold)
-                Spacer(modifier = Modifier.height(30.dp))
+                if (cartItems.isEmpty()){
 
+                        Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+                            Spacer(modifier = Modifier.height(50.dp))
+
+                            Image(imageVector = Icons.Outlined.ShoppingCart, contentDescription = "", modifier = Modifier.size(300.dp))
+                            Text(text="No oreders Yet", fontSize = 42.sp, fontWeight = FontWeight.SemiBold)
+
+                            Text(text="Hit the orange button down below to Create an order", fontSize = 15.sp)
+                            Spacer(modifier = Modifier.height(200.dp))
+
+                            Button(onClick = {navController.navigate("Home")}, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFA4A0C)), modifier = Modifier.fillMaxWidth().height(55.dp), shape =  RoundedCornerShape(20.dp)) {
+
+                                Text(text = "Place An Order", fontSize = 20.sp)
+                            }
+                        }
+
+                }else{
                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
-                   cartItems.forEach {food->
+                   Spacer(modifier = Modifier.height(50.dp))
+
+                   Text(text = "Swipe on item to delete", fontWeight = FontWeight.SemiBold)
+                   Spacer(modifier = Modifier.height(30.dp))
+                   cartItems.forEach { food ->
                        var count = remember { mutableStateOf(1) }
                        val dismissState = rememberDismissState(
                            confirmStateChange = {
-                               if (it == DismissValue.DismissedToStart ) {
+                               if (it == DismissValue.DismissedToStart) {
                                    cartViewModel.removeFromCart(food)  // Remove from cart
                                    true
                                } else false
@@ -122,7 +142,10 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
 
                        SwipeToDismiss(
                            state = dismissState,
-                           directions = setOf(DismissDirection.StartToEnd, DismissDirection.EndToStart),
+                           directions = setOf(
+                               DismissDirection.StartToEnd,
+                               DismissDirection.EndToStart
+                           ),
                            background = {
                                Box(
                                    modifier = Modifier
@@ -225,6 +248,7 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel) {
                            }
                        )
 
+                   }
                }
                     Spacer(modifier = Modifier.height(50.dp))
                     Button(

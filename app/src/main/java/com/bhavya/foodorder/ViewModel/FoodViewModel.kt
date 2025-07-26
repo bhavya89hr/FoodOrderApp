@@ -23,7 +23,7 @@ import java.io.File
 import javax.inject.Inject
 
 
- // Remove this if not using Hilt
+
  class FoodViewModel @Inject constructor(
      private val context: Application
  ) : AndroidViewModel(context) {

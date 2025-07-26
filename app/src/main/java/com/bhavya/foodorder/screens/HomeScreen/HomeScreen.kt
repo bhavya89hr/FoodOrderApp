@@ -80,6 +80,8 @@ import com.bhavya.foodorder.DataManager
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.FavouriteViewModel
+import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
 import com.bhavya.foodorder.screens.DrawerScreeen.DrawerFun
 import com.bhavya.foodorder.screens.DrawerScreeen.DrawerItems
 import kotlinx.coroutines.launch
@@ -88,7 +90,7 @@ val LightGrayCustom = Color(0xFFEFEEEE).copy(alpha = 0.6f)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavController,cartViewModel: CartViewModel) {
+fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel) {
     var selectedCategory by remember { mutableStateOf("Food") }
     val categories = listOf("Food", "Snacks", "Drinks", "Desserts")
     val foodItems = viewModel.foodItems
@@ -108,7 +110,9 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
             food = food,
             onClick = { selectedFood = null },
             navController = navController,
-            cartViewModel = cartViewModel
+            cartViewModel = cartViewModel,
+            searchViewModel = searchViewModel,
+            favouriteViewModel = favouriteViewModel
         )
         return
     }
@@ -216,8 +220,9 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
                         }
                         LaunchedEffect(searchQuery) {
                             if (searchQuery.isNotBlank()) {
-                                navController.currentBackStackEntry?.savedStateHandle?.set("searchResults", filteredItems)
-                                navController.navigate("search_results")
+                                searchViewModel.searchResults=filteredItems
+                                searchViewModel.searchQuery=searchQuery
+                                navController.navigate("Search")
                             }
                         }
                         if (filteredItems.isEmpty()) {
@@ -349,6 +354,7 @@ fun Bottombar(navController: NavController,
                 when (item.id){
                     "home"->navController.navigate("home")
                     "profile"->navController.navigate("profile")
+                    "fav"->navController.navigate("Fav")
                 }
             }.then(if (isSelected) Modifier.shadow(30.dp,RoundedCornerShape(50)) else Modifier), colorFilter = ColorFilter.tint(if (isSelected) Color.Red else Color.Black))
         }
@@ -368,7 +374,7 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
         contentAlignment = Alignment.TopCenter
     ) {
 
-        // Main white card box
+
         Box(
             modifier = Modifier
                 .padding(top = 60.dp) // Push it down to allow space for the image
@@ -416,16 +422,18 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
 }
 
 @Composable
-fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavController,cartViewModel: CartViewModel){
+fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel){
+//val selecteditems by remember { mutableStateOf<FoodItems?>(null) }
     androidx.compose.material3.Surface(modifier = Modifier.fillMaxSize().background(Color(0xFFEFEEEE).copy(alpha = 0.6f))) {
         Column(modifier = Modifier.fillMaxSize().padding(10.dp,40.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(modifier = Modifier.fillMaxWidth().padding(16.dp,0.dp),
+            Row(modifier = Modifier.fillMaxWidth().padding(16.dp,10.dp),
                 horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Image(imageVector = Icons.Default.PlayArrow, contentDescription = "", modifier = Modifier.clickable {
                     navController.navigate("home")      }
                     .rotate(180f),
                     colorFilter = ColorFilter.tint(Color.Black))
-                Image(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "")
+                Image(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "", modifier = Modifier.clickable{favouriteViewModel.addToCart(food)
+                    })
 //               Text(text="Back", color = Color.Black, fontWeight = FontWeight.Bold, modifier =Modifier, fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.height(20.dp))

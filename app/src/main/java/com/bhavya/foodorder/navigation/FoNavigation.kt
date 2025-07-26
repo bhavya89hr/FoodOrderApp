@@ -14,9 +14,13 @@ import androidx.navigation.navArgument
 import com.bhavya.foodorder.DataManager
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.FavouriteViewModel
+import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
 import com.bhavya.foodorder.screens.CartScreen.CartScreen
+import com.bhavya.foodorder.screens.CartScreen.FavouriteScreen
 import com.bhavya.foodorder.screens.ChatBotScreen.ChatBotScreen
 import com.bhavya.foodorder.screens.GetStarted
+import com.bhavya.foodorder.screens.HomeScreen.CardDetail
 import com.bhavya.foodorder.screens.HomeScreen.HomeScreen
 import com.bhavya.foodorder.screens.LoginScreen.LoginScreen
 import com.bhavya.foodorder.screens.SearchScreen.SearchResultScreen
@@ -27,10 +31,11 @@ import com.bhavya.foodorder.screens.profileScreen.profileScreen
 
 @Composable
 fun FoNavigation(){
-  val foodItems= DataManager.data.toList()
-    val navController= rememberNavController()
-    val cartviewmodel: CartViewModel= viewModel()
 
+    val navController= rememberNavController()
+    val favouriteViewModel: FavouriteViewModel=viewModel ()
+    val cartviewmodel: CartViewModel= viewModel()
+val Searchitems: SharedSearchViewModel=viewModel()
     NavHost(navController=navController, startDestination = AppScreens.HomeScreen.route){
         composable (AppScreens.GetStarted.route){
             GetStarted(navController)
@@ -42,7 +47,9 @@ fun FoNavigation(){
         composable (AppScreens.HomeScreen.route){
             HomeScreen(
              navController=navController,
-        cartViewModel = cartviewmodel
+        cartViewModel = cartviewmodel,
+                searchViewModel = Searchitems,
+                favouriteViewModel = favouriteViewModel
             )
         }
         val CartScrreenRoute=AppScreens.CartScreen.route
@@ -87,18 +94,23 @@ fun FoNavigation(){
             profileEdit(email,name,mobileNo,address,navController)
 
         }
-        composable(AppScreens.SearchScreen.route) { backStackEntry ->
-            val results = backStackEntry.savedStateHandle.get<List<FoodItems>>("searchResults") ?: emptyList()
+        val SearchScreen=AppScreens.SearchScreen.route
+        composable(SearchScreen){
+
             SearchResultScreen(
                 navController = navController,
                 query = "",
-                results = results,
-                onItemClick = { food ->
-
-                }
+               searchViewModel = Searchitems,
+cartviewmodel,
+                favouriteViewModel
             )
         }
-
+composable(AppScreens.FavouriteScreen.route) {
+    FavouriteScreen(
+        navController = navController,
+        favouriteViewModel =favouriteViewModel
+    )
+}
     }
 
 }
