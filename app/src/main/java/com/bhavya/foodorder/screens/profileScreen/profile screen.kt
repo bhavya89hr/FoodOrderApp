@@ -33,8 +33,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -46,10 +48,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bhavya.foodorder.ViewModel.ProfileViewModel
 
 
 @Composable
-fun profileScreen(navController: NavController, name: String, email: String, mobile: String,address: String) {
+fun profileScreen(navController: NavController,profileViewModel: ProfileViewModel) {
+
+val name= profileViewModel.profile.value
     Surface(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
 
         Column(
@@ -90,7 +95,7 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                     fontWeight = FontWeight.Bold,
                     color = Color.Red,
                     modifier = Modifier.clickable {
-                        navController.navigate("ProfileEdit/${name}/${email}/${mobile}/${address}")
+                        navController.navigate("Edit")
                     })
 
             }
@@ -113,20 +118,30 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                         )
                     }
                     Spacer(modifier = Modifier.width(20.dp))
+
                     Column(modifier = Modifier.fillMaxHeight().width(205.dp).padding(0.dp, 20.dp).verticalScroll(rememberScrollState())) {
-                        Text(text = name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                        Text(text = name.name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = email, fontSize = 20.sp)
+                        Text(text = name.email, fontSize = 20.sp)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text =mobile, fontSize = 20.sp)
+                        Text(text =name.MobileNO, fontSize = 20.sp)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = address, fontSize = 20.sp)
+                        Text(text = name.Adrees, fontSize = 20.sp)
                     }
                 }
             }
+
             Column {
               options.forEach {
                   text->
+                  var selectedItem by remember { mutableStateOf("") }
+                 if(text==selectedItem){
+                     when(text){
+                         "orders"->navController.navigate("Cart")
+                         "Faq"->navController.navigate("Fav")
+                     }
+
+                 }
                   Card(modifier = Modifier.height(80.dp).fillMaxWidth().padding(0.dp,10.dp), colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(20.dp)) {
            Row(modifier = Modifier.fillMaxSize().padding(15.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                    Text(text = text, fontSize = 22.sp, fontWeight = FontWeight.W500,modifier = Modifier.padding(10.dp,0.dp))
@@ -135,7 +150,7 @@ fun profileScreen(navController: NavController, name: String, email: String, mob
                    contentDescription = null,
                    tint = Color.Black,
                    modifier = Modifier
-                       .clickable{}
+                       .clickable{selectedItem=text}
                        .size(30.dp)
                )
            }

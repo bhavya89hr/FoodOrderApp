@@ -3,217 +3,76 @@
     "id": "1",
     "name": "Mango Smoothie",
     "price": 243,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "mango_smoothie",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 3.9,
     "isAvailable": true
   },
-  {
-    "id": "2",
-    "name": "Milkshake",
-    "price": 295,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 3.5,
-    "isAvailable": true
-  },
-  {
-    "id": "3",
-    "name": "Margherita Pizza",
-    "price": 288,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
-    "description": "Delicious and satisfying main course meal.",
-    "category": "Food",
-    "rating": 4.8,
-    "isAvailable": true
-  },
-  {
-    "id": "4",
-    "name": "Spring Rolls",
-    "price": 156,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 4.9,
-    "isAvailable": true
-  },
-  {
-    "id": "5",
-    "name": "Margherita Pizza",
-    "price": 117,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
-    "description": "Delicious and satisfying main course meal.",
-    "category": "Food",
-    "rating": 4.6,
-    "isAvailable": true
-  },
-  {
-    "id": "6",
-    "name": "Nachos",
-    "price": 293,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 4.3,
-    "isAvailable": true
-  },
+
+
   {
     "id": "7",
     "name": "French Fries",
     "price": 280,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
+    "imageUrl":"french_fries"
+  ,"description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 3.7,
     "isAvailable": true
   },
   {
-    "id": "8",
-    "name": "Pakora",
-    "price": 150,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 3.7,
+    "id": "3",
+    "name": " pizza",
+    "price": 288,
+    "imageUrl": "pizza",
+    "description": "Delicious and satisfying main course meal.",
+    "category": "Food",
+    "rating": 4.8,
     "isAvailable": true
   },
   {
     "id": "9",
     "name": "Fruit Tart",
     "price": 282,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl":"fruit_tart" ,
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 4.8,
     "isAvailable": true
   },
-  {
-    "id": "10",
-    "name": "Spring Rolls",
-    "price": 251,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 4.1,
-    "isAvailable": true
-  },
-  {
-    "id": "11",
-    "name": "Iced Tea",
-    "price": 246,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 3.7,
-    "isAvailable": true
-  },
-  {
-    "id": "12",
-    "name": "Nachos",
-    "price": 273,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 4.2,
-    "isAvailable": true
-  },
+
+
   {
     "id": "13",
     "name": "Cold Coffee",
     "price": 240,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "cold_coffee",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.3,
     "isAvailable": true
   },
-  {
-    "id": "14",
-    "name": "Milkshake",
-    "price": 246,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 3.5,
-    "isAvailable": true
-  },
-  {
-    "id": "15",
-    "name": "Coca Cola",
-    "price": 217,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.2,
-    "isAvailable": true
-  },
-  {
-    "id": "16",
-    "name": "Ice Cream Sundae",
-    "price": 248,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
-    "description": "Sweet treat to finish your meal.",
-    "category": "Desserts",
-    "rating": 4.2,
-    "isAvailable": true
-  },
-  {
-    "id": "17",
-    "name": "Milkshake",
-    "price": 49,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 5.0,
-    "isAvailable": true
-  },
+
+
   {
     "id": "18",
     "name": "Spring Rolls",
     "price": 224,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
+    "imageUrl":"spring_rolls",
     "description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 4.1,
     "isAvailable": true
   },
-  {
-    "id": "19",
-    "name": "Milkshake",
-    "price": 191,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.8,
-    "isAvailable": true
-  },
-  {
-    "id": "20",
-    "name": "Pakora",
-    "price": 135,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 4.5,
-    "isAvailable": true
-  },
-  {
-    "id": "21",
-    "name": "Mango Smoothie",
-    "price": 202,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.7,
-    "isAvailable": true
-  },
+
+
+
   {
     "id": "22",
     "name": "Pakora",
     "price": 193,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
+    "imageUrl": "pakora",
     "description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 3.5,
@@ -223,7 +82,7 @@
     "id": "23",
     "name": "Strawberry Cheesecake",
     "price": 179,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl":"strawberry_cheesecake" ,
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 3.5,
@@ -233,7 +92,7 @@
     "id": "24",
     "name": "Pasta Alfredo",
     "price": 172,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
+    "imageUrl":  "pasta_alfredo",
     "description": "Delicious and satisfying main course meal.",
     "category": "Food",
     "rating": 4.9,
@@ -243,7 +102,7 @@
     "id": "25",
     "name": "Brownie",
     "price": 216,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl":"brownie" ,
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 3.8,
@@ -253,7 +112,7 @@
     "id": "26",
     "name": "Lemonade",
     "price": 70,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "lemonade",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 3.7,
@@ -263,7 +122,7 @@
     "id": "27",
     "name": "Iced Tea",
     "price": 222,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "iced_tea",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.7,
@@ -271,9 +130,9 @@
   },
   {
     "id": "28",
-    "name": "Ice Cream Sundae",
+    "name": "Ice Cream ",
     "price": 123,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl": "ice",
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 4.7,
@@ -283,7 +142,7 @@
     "id": "29",
     "name": "Mousse",
     "price": 155,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl": "mousse",
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 4.2,
@@ -293,27 +152,18 @@
     "id": "30",
     "name": "Coca Cola",
     "price": 172,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "coca_cola",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 3.7,
     "isAvailable": true
   },
-  {
-    "id": "31",
-    "name": "Cheeseburger",
-    "price": 284,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
-    "description": "Delicious and satisfying main course meal.",
-    "category": "Food",
-    "rating": 4.6,
-    "isAvailable": true
-  },
+
   {
     "id": "32",
     "name": "Samosa",
     "price": 145,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
+    "imageUrl":"samosa",
     "description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 3.5,
@@ -323,7 +173,7 @@
     "id": "33",
     "name": "Veggie Wrap",
     "price": 240,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
+    "imageUrl":"veggie_wrap" ,
     "description": "Delicious and satisfying main course meal.",
     "category": "Food",
     "rating": 4.4,
@@ -333,27 +183,18 @@
     "id": "34",
     "name": "Milkshake",
     "price": 51,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl":  "milkshake",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.2,
     "isAvailable": true
   },
-  {
-    "id": "35",
-    "name": "Lemonade",
-    "price": 274,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.0,
-    "isAvailable": true
-  },
+
   {
     "id": "36",
     "name": "Paneer Tikka",
     "price": 58,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
+    "imageUrl": "paneer_tikka",
     "description": "Delicious and satisfying main course meal.",
     "category": "Food",
     "rating": 3.5,
@@ -363,7 +204,7 @@
     "id": "37",
     "name": "Orange Juice",
     "price": 55,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl":"orange_juice" ,
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.0,
@@ -373,27 +214,18 @@
     "id": "38",
     "name": "Cheeseburger",
     "price": 278,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
+    "imageUrl": "cheeseburger",
     "description": "Delicious and satisfying main course meal.",
     "category": "Food",
     "rating": 3.6,
     "isAvailable": true
   },
-  {
-    "id": "39",
-    "name": "Mango Smoothie",
-    "price": 216,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.3,
-    "isAvailable": true
-  },
+
   {
     "id": "40",
     "name": "Milkshake",
     "price": 82,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
+    "imageUrl": "milkshake",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.1,
@@ -403,27 +235,18 @@
     "id": "41",
     "name": "Garlic Bread",
     "price": 276,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
+    "imageUrl":"garlic_bread",
     "description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 4.1,
     "isAvailable": true
   },
-  {
-    "id": "42",
-    "name": "Lemonade",
-    "price": 290,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.9,
-    "isAvailable": true
-  },
+
   {
     "id": "43",
     "name": "Nachos",
     "price": 73,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
+    "imageUrl":"nachos",
     "description": "Perfect bite-sized munchies for a quick hunger fix.",
     "category": "Snacks",
     "rating": 3.8,
@@ -433,7 +256,7 @@
     "id": "44",
     "name": "Grilled Sandwich",
     "price": 176,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
+    "imageUrl": "grilled_sandwich",
     "description": "Delicious and satisfying main course meal.",
     "category": "Food",
     "rating": 4.9,
@@ -443,60 +266,12 @@
     "id": "45",
     "name": "Chocolate Cake",
     "price": 189,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
+    "imageUrl": "chocolate_cake",
     "description": "Sweet treat to finish your meal.",
     "category": "Desserts",
     "rating": 4.2,
     "isAvailable": true
-  },
-  {
-    "id": "46",
-    "name": "Mango Smoothie",
-    "price": 64,
-    "imageUrl": "https://images.unsplash.com/photo-1588776814546-b63d9316cd60",
-    "description": "Refreshing beverage for any time of day.",
-    "category": "Drinks",
-    "rating": 4.1,
-    "isAvailable": true
-  },
-  {
-    "id": "47",
-    "name": "Nachos",
-    "price": 220,
-    "imageUrl": "https://images.unsplash.com/photo-1542444459-db68eebd9b42",
-    "description": "Perfect bite-sized munchies for a quick hunger fix.",
-    "category": "Snacks",
-    "rating": 3.9,
-    "isAvailable": true
-  },
-  {
-    "id": "48",
-    "name": "Brownie",
-    "price": 216,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
-    "description": "Sweet treat to finish your meal.",
-    "category": "Desserts",
-    "rating": 4.3,
-    "isAvailable": true
-  },
-  {
-    "id": "49",
-    "name": "Chocolate Cake",
-    "price": 84,
-    "imageUrl": "https://images.unsplash.com/photo-1601979031925-5c4c5f90a6f4",
-    "description": "Sweet treat to finish your meal.",
-    "category": "Desserts",
-    "rating": 4.0,
-    "isAvailable": true
-  },
-  {
-    "id": "50",
-    "name": "Cheeseburger",
-    "price": 169,
-    "imageUrl": "https://images.unsplash.com/photo-1601924577961-c6d027d3f5f9",
-    "description": "Delicious and satisfying main course meal.",
-    "category": "Food",
-    "rating": 4.9,
-    "isAvailable": true
   }
+
+
 ]

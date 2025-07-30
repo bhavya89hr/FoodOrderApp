@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -114,8 +117,35 @@ var newitems by remember { mutableStateOf(Items) }
                 fontSize = 24.sp,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
+if (fooditem.isEmpty()){
+    Column(
+        modifier = Modifier.fillMaxWidth()
+            .height(600.dp).padding(20.dp),
+        verticalArrangement = Arrangement.Top,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = Modifier.height(50.dp))
 
-            LazyColumn(
+        Image(
+            imageVector = Icons.Outlined.Search,
+            contentDescription = "",
+            modifier = Modifier.size(300.dp),
+            colorFilter = ColorFilter.tint(Color.LightGray)
+        )
+        Text(
+            text = "No oreders Yet",
+            fontSize = 42.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+
+        Text(
+            text = "Try searching the item with a different keyword.",
+            fontSize = 15.sp
+        )
+
+
+    }
+}else LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)
             ) {

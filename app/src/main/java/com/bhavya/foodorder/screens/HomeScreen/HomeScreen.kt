@@ -1,8 +1,9 @@
 package com.bhavya.foodorder.screens.HomeScreen
 
-import android.view.Surface
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
+
 import com.bhavya.foodorder.ViewModel.FoodViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -41,9 +42,9 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Refresh
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DrawerValue
@@ -51,7 +52,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -73,9 +73,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import coil.request.ImageRequest
+
 import com.bhavya.foodorder.DataManager
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.R
@@ -90,7 +88,7 @@ val LightGrayCustom = Color(0xFFEFEEEE).copy(alpha = 0.6f)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel) {
+fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel) {
     var selectedCategory by remember { mutableStateOf("Food") }
     val categories = listOf("Food", "Snacks", "Drinks", "Desserts")
     val foodItems = viewModel.foodItems
@@ -119,18 +117,16 @@ fun HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavControll
     ModalNavigationDrawer(
         drawerContent = {
             DrawerFun { item ->
-                scope.launch { drawerState.close() }
-                when (item) {
-                    DrawerItems.profile -> { /* Navigate or Handle */
+                scope.launch {
+                    drawerState.close()
+                    when (item) {
+                        DrawerItems.profile -> navController.navigate("profile")
+                        DrawerItems.Orders -> navController.navigate("Cart")
+                        DrawerItems.Offers -> {/* TODO: Navigate to offers */}
+                        DrawerItems.Privacy -> {/* TODO: Navigate to privacy */}
+                        DrawerItems.Security -> {/* TODO: Navigate to security */}
+                        DrawerItems.SignOut -> navController.navigate("LoginScreen")
                     }
-
-                    DrawerItems.Orders -> { /* Navigate */
-                    }
-
-                    DrawerItems.SignOut -> { /* Handle Sign-out */
-                    }
-                    // Add navigation or logic as needed
-                    else -> {}
                 }
             }
         },
@@ -332,7 +328,7 @@ sealed class bottomItems(val icon1: ImageVector,val icon2: ImageVector,val id: S
     object Home: bottomItems(Icons.Outlined.Home, Icons.Filled.Home,"home")
     object fav: bottomItems(Icons.Outlined.FavoriteBorder,Icons.Filled.Favorite,"fav")
     object Profile: bottomItems(Icons.Outlined.Person,Icons.Filled.Person,"profile")
-    object History: bottomItems(Icons.Outlined.Refresh,Icons.Filled.Refresh,"history")
+    object History: bottomItems(Icons.Outlined.History,Icons.Filled.Refresh,"history")
 }
 
 
@@ -355,6 +351,7 @@ fun Bottombar(navController: NavController,
                     "home"->navController.navigate("home")
                     "profile"->navController.navigate("profile")
                     "fav"->navController.navigate("Fav")
+                    "history"->navController.navigate("History")
                 }
             }.then(if (isSelected) Modifier.shadow(30.dp,RoundedCornerShape(50)) else Modifier), colorFilter = ColorFilter.tint(if (isSelected) Color.Red else Color.Black))
         }
@@ -365,12 +362,15 @@ fun Bottombar(navController: NavController,
 @Composable
 fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
 //    Log.d("FoodImage", "Image URL: ${food.image}")
+    var foodname by remember { mutableStateOf(food.imageUrl) }
     Box(
         modifier = Modifier
-            .height(400.dp)
+            .height(350.dp)
             .width(320.dp)
             .background(color = LightGrayCustom)
-            .clickable{onClick(food)},
+            .clickable{onClick(food)}
+            .padding()
+           ,
         contentAlignment = Alignment.TopCenter
     ) {
 
@@ -398,6 +398,10 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
             }
 
         }
+        val context = LocalContext.current
+        val imageResId = remember(food.imageUrl) {
+            context.resources.getIdentifier(food.imageUrl, "drawable", context.packageName)
+        }
         Box(
             modifier = Modifier
                 .size(200.dp)
@@ -405,15 +409,22 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
                 .background(Color.LightGray), // Helps reveal if image fails
             contentAlignment = Alignment.Center
         ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(R.drawable.img)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = "Food Image",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
+            if (imageResId != 0) {
+                Image(
+                    painter = painterResource(id = imageResId),
+                    contentDescription = "Food Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else {
+                // fallback in case image not found
+                Box(
+                    modifier = Modifier.fillMaxSize().background(Color.Gray),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("No Image", color = Color.White)
+                }
+            }
         }
 
 
@@ -437,6 +448,10 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
 //               Text(text="Back", color = Color.Black, fontWeight = FontWeight.Bold, modifier =Modifier, fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.height(20.dp))
+            val context = LocalContext.current
+            val imageResId = remember(food.imageUrl) {
+                context.resources.getIdentifier(food.imageUrl, "drawable", context.packageName)
+            }
             Box(
                 modifier = Modifier
                     .size(200.dp)
@@ -444,11 +459,27 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
                     .background(Color.LightGray), // Helps reveal if image fails
                 contentAlignment = Alignment.Center
             ) {
-                Image(painter = painterResource(id=R.drawable.img),contentDescription = "Food Image",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize())
+                if (imageResId != 0) {
+                    Image(
+                        painter = painterResource(id = imageResId),
+                        contentDescription = "Food Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                } else {
+                    // fallback in case image not found
+                    Box(
+                        modifier = Modifier.fillMaxSize().background(Color.Gray),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("No Image", color = Color.White)
+                    }
+                }
             }
-            Text(text= food.name, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
+            Box(modifier = Modifier.fillMaxWidth().height(40.dp), contentAlignment = Alignment.Center) {
+                Text(text= food.name, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
+
+            }
             Spacer(modifier = Modifier.height(25.dp))
 
             Row( modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){

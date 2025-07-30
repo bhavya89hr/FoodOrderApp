@@ -62,7 +62,7 @@ androidx.compose.material3.Surface(modifier = Modifier.fillMaxHeight().width(300
 
         Column(modifier = Modifier.fillMaxSize().padding(30.dp,150.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.SpaceEvenly){
             items.forEach {items->
-            Row(modifier = Modifier.fillMaxWidth().height(30.dp).clickable{}, verticalAlignment = Alignment.CenterVertically){
+            Row(modifier = Modifier.fillMaxWidth().height(30.dp).clickable{onItemClick(items)}, verticalAlignment = Alignment.CenterVertically){
                 Image(imageVector = items.icon, contentDescription = "", modifier = Modifier.size(50.dp), colorFilter = ColorFilter.tint(color = Color.White)  )
 
 //                Spacer(modifier = Modifier.width(30.dp))

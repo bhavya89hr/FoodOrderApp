@@ -54,18 +54,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.bhavya.foodorder.R
+import com.bhavya.foodorder.ViewModel.ProfileViewModel
+import com.bhavya.foodorder.dataclass.Profile
 import com.bhavya.getfitapp.components.InputFields
 
 
 @Composable
 fun profileEdit(
-    email: String?,
-    name: String?,
-    MobileNo: String?,
-    address: String?,
-    navController: NavController,
-    onValueChange: (String)-> Unit={}
 
+    navController: NavController,
+    onValueChange: (String)-> Unit={},
+    profileViewModel: ProfileViewModel
 ){
     val value= remember {
         mutableStateOf("")
@@ -256,13 +255,13 @@ fun profileEdit(
                 Spacer(modifier = Modifier.height(13.dp))
             }
             Button(onClick = {
-                navController.previousBackStackEntry?.savedStateHandle?.set("name", value.value)
-                navController.previousBackStackEntry?.savedStateHandle?.set("email", Email.value)
-                navController.previousBackStackEntry?.savedStateHandle?.set("mobile", mobileNum.value)
-                navController.previousBackStackEntry?.savedStateHandle?.set("address", Address.value)
-
-                // Navigate back
-                navController.navigate("ProfileScreen")
+     profileViewModel.profile.value= Profile(
+         name = value.value,
+         Adrees = Address.value,
+         email = Email.value,
+         MobileNO = mobileNum.value
+     )
+                navController.navigate("profile")
             }, modifier = Modifier.width(150.dp)
                 .height(50.dp)
 

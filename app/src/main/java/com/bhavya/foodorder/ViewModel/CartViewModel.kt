@@ -13,7 +13,7 @@ import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 
 
             private val _cartItems = mutableStateListOf<FoodItems>()
-            val cartItems: List<FoodItems> = _cartItems
+            var cartItems: List<FoodItems> = _cartItems
 
             fun addToCart(item: FoodItems) {
                 _cartItems.add(item)

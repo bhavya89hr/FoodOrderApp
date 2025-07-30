@@ -55,17 +55,37 @@ import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.DismissDirection
 import androidx.compose.material.DismissValue
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material.rememberDismissState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.LocalContext
 import com.bhavya.foodorder.ViewModel.FavouriteViewModel
+import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
+import com.bhavya.foodorder.screens.HomeScreen.CardDetail
 import com.bhavya.foodorder.screens.HomeScreen.LightGrayCustom
 
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavController) {
+fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel) {
 
     val cartItems = favouriteViewModel.cartItems
+    var selectedItems by remember { mutableStateOf<FoodItems?>(null) }
+    selectedItems?.let { food ->
+        CardDetail(
+            onClick = { selectedItems = null },
+            food = food,
+            navController = navController,
+            cartViewModel = cartViewModel,
+            searchViewModel = searchViewModel,
+            favouriteViewModel,
+        )
+        return
+    }
     androidx.compose.material.Surface(
         modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)
     ) {
@@ -91,138 +111,217 @@ fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavCon
                         imageVector = Icons.Default.KeyboardArrowLeft,
                         contentDescription = "",
                         modifier = Modifier.size(35.dp).clickable {
-                          navController.navigate("home")
+                            navController.navigate("home")
                         }
                     )
                     Text(
                         text = "Favourite",
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 30.sp,
-                        modifier = Modifier.padding(start = 120.dp)
+                        modifier = Modifier.padding(start = 90.dp)
                     )
                 }
                 Spacer(modifier = Modifier.height(30.dp))
+                if (cartItems.isEmpty()) {
 
-                Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
-                    cartItems.forEach { food ->
-                        var count = remember { mutableStateOf(1) }
-                        val dismissState = rememberDismissState(
-                            confirmStateChange = {
-                                if (it == DismissValue.DismissedToStart) {
-                                    favouriteViewModel.removeFromCart(food)  // Remove from cart
-                                    true
-                                } else false
-                            }
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.height(50.dp))
+
+                        Image(
+                            imageVector = Icons.Default.FavoriteBorder,
+                            contentDescription = "",
+                            modifier = Modifier.size(250.dp),
+                            colorFilter = ColorFilter.tint(Color.LightGray)
+                        )
+                        Text(
+                            text = "No Favourite Yet",
+                            fontSize = 42.sp,
+                            fontWeight = FontWeight.SemiBold
                         )
 
-                        SwipeToDismiss(
-                            state = dismissState,
-                            directions = setOf(
-                                DismissDirection.StartToEnd,
-                                DismissDirection.EndToStart
+                        Text(
+                            text = "Hit the orange button down below to Create an order",
+                            fontSize = 15.sp
+                        )
+                        Spacer(modifier = Modifier.height(200.dp))
+
+                        Button(
+                            onClick = { navController.navigate("Home") },
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color(0xFFFA4A0C)
                             ),
-                            background = {
-                                Box(
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .background(Color.White)
-                                        .padding(20.dp),
-                                    contentAlignment = Alignment.CenterEnd
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Outlined.Delete,
-                                        contentDescription = "Delete",
-                                        tint = Color.Red,
-                                        modifier = Modifier.size(30.dp)
-                                    )
+                            modifier = Modifier.fillMaxWidth().height(55.dp),
+                            shape = RoundedCornerShape(20.dp)
+                        ) {
+
+                            Text(text = "Place An Order", fontSize = 20.sp)
+                        }
+                    }
+
+                } else {
+                    val uniqueItem = cartItems.distinctBy { it.id }
+
+                    Column(modifier = Modifier.fillMaxWidth().fillMaxHeight()) {
+                        uniqueItem.forEach { food ->
+
+                            val dismissState = rememberDismissState(
+                                confirmStateChange = {
+                                    if (it == DismissValue.DismissedToStart) {
+                                        favouriteViewModel.removeFromCart(food)  // Remove from cart
+                                        true
+                                    } else false
                                 }
-                            },
-                            dismissContent = {
-                                Card (
-                                    modifier = Modifier
-                                        .height(150.dp)
-                                        .fillMaxWidth()
-                                        .padding(vertical = 10.dp),
-                                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                                    shape = RoundedCornerShape(25.dp),
-                                    elevation = CardDefaults.elevatedCardElevation(5.dp)
-                                ) {
-                                    Row (modifier = Modifier.padding(10.dp)) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxHeight()
-                                                .width(90.dp)
-                                                .align(Alignment.CenterVertically)
-                                        ) {
-                                            Image(
-                                                painter = painterResource(id = R.drawable.img),
-                                                contentDescription = "Default Profile Picture",
-                                                modifier = Modifier
-                                                    .size(90.dp)
-                                                    .clip(CircleShape),
-                                                contentScale = ContentScale.Crop
-                                            )
-                                        }
-                                        Spacer(modifier = Modifier.width(20.dp))
-                                        Column(
-                                            modifier = Modifier
-                                                .fillMaxHeight()
-                                                .width(205.dp)
-                                                .padding(vertical = 5.dp)
-                                                .verticalScroll(rememberScrollState())
-                                        ) {
-                                            Text(
-                                                text = food.name,
-                                                fontWeight = FontWeight.SemiBold,
-                                                fontSize = 22.sp
-                                            )
-                                            Spacer(modifier = Modifier.height(5.dp))
-                                            Text(
-                                                text = food.price.toString(),
-                                                fontWeight = FontWeight.SemiBold,
-                                                fontSize = 22.sp,
-                                                color = Color.Red
-                                            )
+                            )
+
+                            SwipeToDismiss(
+                                state = dismissState,
+                                directions = setOf(
+                                    DismissDirection.StartToEnd,
+                                    DismissDirection.EndToStart
+                                ),
+                                background = {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .background(Color.White)
+                                            .padding(20.dp),
+                                        contentAlignment = Alignment.CenterEnd
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Outlined.Delete,
+                                            contentDescription = "Delete",
+                                            tint = Color.Red,
+                                            modifier = Modifier.size(30.dp)
+                                        )
+                                    }
+                                },
+                                dismissContent = {
+
+                                    Card(
+                                        modifier = Modifier
+                                            .height(150.dp)
+                                            .fillMaxWidth()
+                                            .padding(vertical = 10.dp)
+                                            .clickable {
+                                                selectedItems = food
+                                            },
+                                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                                        shape = RoundedCornerShape(25.dp),
+                                        elevation = CardDefaults.elevatedCardElevation(5.dp)
+                                    ) {
+                                        Row(modifier = Modifier.padding(10.dp)) {
+                                            val context = LocalContext.current
+                                            val imageResId = remember(food.imageUrl) {
+                                                context.resources.getIdentifier(
+                                                    food.imageUrl,
+                                                    "drawable",
+                                                    context.packageName
+                                                )
+                                            }
                                             Box(
                                                 modifier = Modifier
-                                                    .height(25.dp)
-                                                    .width(60.dp)
-                                                    .clip(RoundedCornerShape(20.dp))
-                                                    .background(color = Color.Red)
-                                                    .align(Alignment.End)
+                                                    .fillMaxHeight()
+                                                    .width(100.dp)
+                                                    .clip(CircleShape)
+                                                    .background(Color.LightGray), // Helps reveal if image fails
+                                                contentAlignment = Alignment.Center
                                             ) {
+                                                if (imageResId != 0) {
+                                                    Image(
+                                                        painter = painterResource(id = imageResId),
+                                                        contentDescription = "Food Image",
+                                                        contentScale = ContentScale.Crop,
+                                                        modifier = Modifier.fillMaxSize()
+                                                    )
+                                                } else {
+
+                                                    Box(
+                                                        modifier = Modifier.fillMaxSize()
+                                                            .background(Color.Gray),
+                                                        contentAlignment = Alignment.Center
+                                                    ) {
+                                                        Text("No Image", color = Color.White)
+                                                    }
+                                                }
+                                            }
+                                            Spacer(modifier = Modifier.width(20.dp))
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxHeight()
+                                                    .width(205.dp)
+                                                    .padding(vertical = 5.dp)
+                                                    .verticalScroll(rememberScrollState())
+                                            ) {
+                                                Text(
+                                                    text = food.name,
+                                                    fontWeight = FontWeight.SemiBold,
+                                                    fontSize = 22.sp
+                                                )
+                                                Spacer(modifier = Modifier.height(5.dp))
                                                 Row(
-                                                    modifier = Modifier.fillMaxSize(),
-                                                    verticalAlignment = Alignment.CenterVertically,
-                                                    horizontalArrangement = Arrangement.SpaceAround
+                                                    modifier = Modifier.fillMaxWidth()
+                                                        .padding(10.dp),
+                                                    horizontalArrangement = Arrangement.Start
                                                 ) {
                                                     Text(
-                                                        text = "+",
-                                                        fontSize = 20.sp,
-                                                        color = Color.White,
-                                                        modifier = Modifier.clickable {
-                                                            count.value = count.value + 1
-                                                        })
-                                                    Text(
-                                                        text = count.value.toString(),
-                                                        fontSize = 19.sp,
-                                                        color = Color.White
+                                                        text = "₹",
+                                                        fontSize = 18.sp,
+                                                        fontWeight = FontWeight.Medium,
+                                                        color = Color(0xFFFA4A0C)
                                                     )
+//                   Text(text = ",",fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color.Red)
                                                     Text(
-                                                        text = "-",
-                                                        fontSize = 20.sp,
-                                                        color = Color.White,
-                                                        modifier = Modifier.clickable {
-                                                            count.value = count.value - 1
-                                                        })
+                                                        text = food.price.toString(),
+                                                        fontSize = 18.sp,
+                                                        fontWeight = FontWeight.Medium,
+                                                        color = Color(0xFFFA4A0C)
+                                                    )
                                                 }
+//                                            Box(
+//                                                modifier = Modifier
+//                                                    .height(25.dp)
+//                                                    .width(60.dp)
+//                                                    .clip(RoundedCornerShape(20.dp))
+//                                                    .background(color = Color.Red)
+//                                                    .align(Alignment.End)
+//                                            ) {
+////                                                Row(
+////                                                    modifier = Modifier.fillMaxSize(),
+////                                                    verticalAlignment = Alignment.CenterVertically,
+////                                                    horizontalArrangement = Arrangement.SpaceAround
+////                                                ) {
+////                                                    Text(
+////                                                        text = "+",
+////                                                        fontSize = 20.sp,
+////                                                        color = Color.White,
+////                                                        modifier = Modifier.clickable {
+////                                                            count.value = count.value + 1
+////                                                        })
+////                                                    Text(
+////                                                        text = count.value.toString(),
+////                                                        fontSize = 19.sp,
+////                                                        color = Color.White
+////                                                    )
+////                                                    Text(
+////                                                        text = "-",
+////                                                        fontSize = 20.sp,
+////                                                        color = Color.White,
+////                                                        modifier = Modifier.clickable {
+////                                                            count.value = count.value - 1
+////                                                        })
+////                                                }
+//                                            }
                                             }
                                         }
                                     }
                                 }
-                            }
-                        )
+                            )
 
+                        }
                     }
                 }
             }

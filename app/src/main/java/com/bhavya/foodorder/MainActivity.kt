@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.bhavya.foodorder.navigation.FoNavigation
+import com.bhavya.foodorder.screens.paymentScreen.PaymentScreen
 
 
 import com.bhavya.foodorder.ui.theme.FoodOrderTheme
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
         DataManager.AccessData(this)
         setContent {
             FoodOrderTheme {
-                FoNavigation()
+               FoNavigation()
             }
         }
     }
