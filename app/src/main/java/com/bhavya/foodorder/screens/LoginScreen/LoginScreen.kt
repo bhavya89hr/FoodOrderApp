@@ -157,12 +157,6 @@ fun LoginScreen(navController: NavController, viewModel: AuthViewModel = viewMod
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 24.dp)
         ) {
-            Text(
-                text = if (isLoginMode) "Login" else "Sign Up",
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp,
-                modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)
-            )
 
             Text("Email address", color = Color.Gray, fontWeight = FontWeight.Bold, modifier = Modifier.padding(horizontal = 12.dp))
             TextField(
