@@ -221,6 +221,7 @@ fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavContr
                                 navController.navigate("Search")
                             }
                         }
+                        Spacer(modifier = Modifier.height(30.dp))
                         if (filteredItems.isEmpty()) {
                             Text(
                                 text = "No items match your search.",
@@ -386,7 +387,7 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
         ){
 
             Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(130.dp))
                 Text(text=food.name, fontSize = 33.sp, fontWeight = FontWeight.Medium, modifier = Modifier)
                 Spacer(modifier = Modifier.height(35.dp))
                 Row( modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
@@ -402,6 +403,7 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
         val imageResId = remember(food.imageUrl) {
             context.resources.getIdentifier(food.imageUrl, "drawable", context.packageName)
         }
+
         Box(
             modifier = Modifier
                 .size(200.dp)
