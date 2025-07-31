@@ -102,7 +102,7 @@ fun HistoryScreen(navController: NavController) {
                     Spacer(modifier = Modifier.height(200.dp))
 
                     Button(
-                        onClick = { },
+                        onClick = {navController.navigate("home") },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFFFA4A0C)
                         ),

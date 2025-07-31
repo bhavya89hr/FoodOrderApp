@@ -182,7 +182,7 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel,favouri
                                             DismissValue.DismissedToEnd -> {
 favouriteViewModel.addToCart(food)
 //                                                navController.navigate("Fav")
-                                                true
+                                                false
                                             }
 
                                             else -> false
@@ -196,6 +196,9 @@ favouriteViewModel.addToCart(food)
                                         DismissDirection.StartToEnd,
                                         DismissDirection.EndToStart
                                     ),
+                                    dismissThresholds = { direction ->
+                                        androidx.compose.material.FractionalThreshold(0.3f)
+                                    },
                                     background = {
                                         val direction = dismissState.dismissDirection
                                         val alignment = when (direction) {

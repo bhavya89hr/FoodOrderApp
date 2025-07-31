@@ -6,4 +6,5 @@ import com.bhavya.foodorder.dataclass.Profile
 
 class ProfileViewModel() : ViewModel() {
     var profile = mutableStateOf(Profile("", "", "", ""))
+    var name =""
 }

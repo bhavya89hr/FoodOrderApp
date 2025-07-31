@@ -104,6 +104,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                         fontWeight = FontWeight.Normal,
                         color = Color.Red,
                         modifier = Modifier.clickable {
+                            profileViewModel.name="Delivery"
                             navController.navigate("Edit")
                         })
 
@@ -223,6 +224,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
     }else
         newSelection.let { value->
         PaymentScreen(
+
             value=value,
             navController = navController, profileViewModel = profileViewModel,
             cartViewModel = cartViewModel

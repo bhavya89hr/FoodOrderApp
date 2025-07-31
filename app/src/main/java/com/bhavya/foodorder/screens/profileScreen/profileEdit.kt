@@ -261,7 +261,9 @@ fun profileEdit(
          email = Email.value,
          MobileNO = mobileNum.value
      )
-                navController.navigate("profile")
+                val name ="Delivery"
+                if (name==profileViewModel.name.toString())navController.navigate(name)
+                else navController.navigate("profile")
             }, modifier = Modifier.width(150.dp)
                 .height(50.dp)
 
