@@ -41,7 +41,7 @@ fun FoNavigation() {
     val profileViewModel: ProfileViewModel = viewModel()
     val cartviewmodel: CartViewModel = viewModel()
     val Searchitems: SharedSearchViewModel = viewModel()
-    NavHost(navController = navController, startDestination = AppScreens.GetStarted.route) {
+    NavHost(navController = navController, startDestination = AppScreens.HomeScreen.route) {
         composable(AppScreens.GetStarted.route) {
             GetStarted(navController)
         }

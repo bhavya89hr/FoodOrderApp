@@ -75,7 +75,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                         imageVector = Icons.Default.KeyboardArrowLeft,
                         contentDescription = "",
                         modifier = Modifier.size(30.dp).clickable {
-                            navController.navigate("home")
+                            navController.navigate("Cart")
                         }
                     )
                     Text(
@@ -99,7 +99,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                 ) {
                     Text(text = "address details", fontSize = 20.sp, fontWeight = FontWeight.Normal)
                     Text(
-                        text = "change",
+                        text = "Fill Your Details",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Normal,
                         color = Color.Red,
@@ -111,7 +111,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                 Spacer(modifier = Modifier.height(40.dp))
 
                 Card(
-                    modifier = Modifier.fillMaxWidth().height(160.dp),
+                    modifier = Modifier.fillMaxWidth().height(160.dp).clickable{navController.navigate("Edit")},
                     elevation = 6.dp,
                     shape = RoundedCornerShape(10.dp)
                 ) {

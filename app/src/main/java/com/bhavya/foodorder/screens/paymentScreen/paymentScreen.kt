@@ -64,7 +64,7 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
                     imageVector = Icons.Default.KeyboardArrowLeft,
                     contentDescription = "",
                     modifier = Modifier.size(30.dp).clickable {
-                        navController.navigate("home")
+                        navController.navigate("Delivery")
                     }
                 )
                 Text(

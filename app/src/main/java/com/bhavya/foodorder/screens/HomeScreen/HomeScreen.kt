@@ -487,18 +487,60 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
 //                   Text(text = ",",fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color.Red)
                 Text(text =food.price.toString(),fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color(0xFFFA4A0C))
             }
-            Column(modifier = Modifier.fillMaxHeight().fillMaxWidth().padding(0.dp,50.dp), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = food.description,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Normal,
+                color = Color.DarkGray,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Category: ${food.category}",
+                    fontSize = 16.sp,
+                    color = Color.Gray
+                )
+                Text(
+                    text = "Rating: ${food.rating} ★",
+                    fontSize = 16.sp,
+                    color = Color.Gray
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = if (food.isAvailable) "Available Now" else "Currently Unavailable",
+                fontSize = 16.sp,
+                color = if (food.isAvailable) Color(0xFF4CAF50) else Color.Red,
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(horizontal = 8.dp)
+            )
+
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Column(modifier = Modifier.fillMaxHeight().fillMaxWidth(), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
                 Text(text="Delivery Info" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(text="Delivered between monday aug and thursday 20 from 8pm to 91:32 pm" , fontSize = 22.sp, fontWeight = FontWeight.Light)
-                Spacer(modifier = Modifier.height(35.dp))
+                Spacer(modifier = Modifier.height(25.dp))
                 Text(text="Return Policy" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
-                Spacer(modifier = Modifier.height(15.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Text(text="All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately." , fontSize = 22.sp, fontWeight = FontWeight.Light)
-                Spacer(modifier = Modifier.height(45.dp))
+                Spacer(modifier = Modifier.height(35.dp))
+
                 Button(onClick = { cartViewModel.addToCart(food)
-                    navController.navigate("Cart")}, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFA4A0C)), modifier = Modifier.height(70.dp).fillMaxWidth()) {
+                    navController.navigate("Cart")}, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFA4A0C)), modifier = Modifier.height(60.dp).fillMaxWidth()) {
 
                     Text(text="Add to Cart" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
 
