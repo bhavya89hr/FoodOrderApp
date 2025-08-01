@@ -122,7 +122,7 @@
     "id": "27",
     "name": "Iced Tea",
     "price": 222,
-    "imageUrl": "iced_tea",
+    "imageUrl": "ice",
     "description": "Refreshing beverage for any time of day.",
     "category": "Drinks",
     "rating": 4.7,
@@ -130,7 +130,7 @@
   },
   {
     "id": "28",
-    "name": "Ice Cream ",
+    "name": "Ice Cream",
     "price": 123,
     "imageUrl": "ice",
     "description": "Sweet treat to finish your meal.",

@@ -1,11 +1,13 @@
 package com.bhavya.foodorder.screens.SearchScreen
-
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,6 +33,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -89,7 +92,8 @@ var newitems by remember { mutableStateOf(Items) }
              Row(
                  modifier = Modifier
                      .fillMaxWidth()
-                     .height(70.dp),
+                     .height(70.dp)
+                   ,
                  verticalAlignment = Alignment.CenterVertically
              ) {
                  Icon(
@@ -99,12 +103,11 @@ var newitems by remember { mutableStateOf(Items) }
                          navController.navigate("home")
                      }
                  )
+                 SearchBar(query =searchQueryTwo,
+                     onQueryChange = {searchQueryTwo=it})
 
              }
          }
-            Spacer(modifier = Modifier.height(10.dp))
-           SearchBar(query =searchQueryTwo,
-               onQueryChange = {searchQueryTwo=it})
 
             Spacer(modifier = Modifier.height(20.dp))
             val fooditem=FoodItems.filter {
@@ -112,11 +115,7 @@ var newitems by remember { mutableStateOf(Items) }
                 it.name.contains(searchQueryTwo, ignoreCase = true)
             }
 
-            Text(
-                text = "Found ${fooditem.size} results",
-                fontSize = 24.sp,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
+
 if (fooditem.isEmpty()){
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -124,6 +123,7 @@ if (fooditem.isEmpty()){
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Spacer(modifier = Modifier.height(50.dp))
 
         Image(
@@ -133,7 +133,7 @@ if (fooditem.isEmpty()){
             colorFilter = ColorFilter.tint(Color.LightGray)
         )
         Text(
-            text = "No oreders Yet",
+            text = "Item Not Found",
             fontSize = 42.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -145,21 +145,32 @@ if (fooditem.isEmpty()){
 
 
     }
-}else LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp), horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)
-            ) {
-                items(fooditem) { food ->
-                    FoodItemCard (food = food){
-                        selectedFood=it
-                    }
+}else
+    Column(modifier = Modifier.background(color = LightGrayCustom ).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+Spacer(modifier = Modifier.height(20.dp))
+        Text(
+            text = "Found ${fooditem.size} results",
+            fontSize = 24.sp,
+            modifier = Modifier.padding(bottom = 16.dp)
 
+        )
+        LazyColumn(
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)
+        ) {
 
+            items(fooditem) { food ->
+                FoodItemCard(food = food) {
+                    selectedFood = it
                 }
             }
         }
     }
+    }
 }
+        }
+
 
 @Composable
 fun SearchResultItem(food: FoodItems, onClick: (FoodItems) -> Unit) {

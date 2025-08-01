@@ -366,8 +366,8 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
     var foodname by remember { mutableStateOf(food.imageUrl) }
     Box(
         modifier = Modifier
-            .height(350.dp)
-            .width(320.dp)
+            .height(360.dp)
+            .width(270.dp)
             .background(color = LightGrayCustom)
             .clickable{onClick(food)}
             .padding()
@@ -378,7 +378,7 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
 
         Box(
             modifier = Modifier
-                .padding(top = 60.dp) // Push it down to allow space for the image
+                .padding(top = 100.dp) // Push it down to allow space for the image
                 .height(360.dp)
                 .width(270.dp)
                 .clip(RoundedCornerShape(20.dp))
@@ -387,7 +387,7 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
         ){
 
             Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-                Spacer(modifier = Modifier.height(130.dp))
+                Spacer(modifier = Modifier.height(100.dp))
                 Text(text=food.name, fontSize = 33.sp, fontWeight = FontWeight.Medium, modifier = Modifier)
                 Spacer(modifier = Modifier.height(35.dp))
                 Row( modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
