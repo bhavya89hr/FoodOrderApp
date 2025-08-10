@@ -1,24 +1,61 @@
 package com.bhavya.foodorder.ViewModel
 
-import android.util.Log
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
+import com.bhavya.foodorder.favouriteStorage.FavouriteDatabase
+import com.bhavya.foodorder.favouriteStorage.FavouriteItemEntity
+import com.bhavya.foodorder.favouriteStorage.toEntity
+import com.bhavya.foodorder.favouriteStorage.toFoodItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class FavouriteViewModel: ViewModel() {
-    private val _cartItems = mutableStateListOf<FoodItems>()
-    val cartItems: List<FoodItems> = _cartItems
+class FavouriteViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun addToCart(item: FoodItems) {
-        _cartItems.add(item)
-        Log.d("CartViewModel", "Item added: ${item.name}, Total: ${_cartItems.size}")
+    private val db = Room.databaseBuilder(
+        application,
+        FavouriteDatabase::class.java,
+        "favourite_db"
+    ).fallbackToDestructiveMigration()
+        .build()
+
+    private val favDao = db.favDao()
+
+    private val _favouriteItems = mutableStateListOf<FoodItems>()
+    val favouriteItems: List<FoodItems> = _favouriteItems
+
+    init {
+        loadFavouriteItems()
     }
 
-    fun removeFromCart(item: FoodItems) {
-        _cartItems.remove(item)
+    private fun loadFavouriteItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val favEntities = favDao.getAllFavourites()
+            _favouriteItems.addAll(favEntities.map { it.toFoodItem() })
+        }
     }
 
-    fun clearCart() {
-        _cartItems.clear()
+    fun addToFavourites(item: FoodItems) {
+        _favouriteItems.add(item)
+        viewModelScope.launch(Dispatchers.IO) {
+            favDao.insertFavourite(item.toEntity())
+        }
+    }
+
+    fun removeFromFavourites(item: FoodItems) {
+        _favouriteItems.remove(item)
+        viewModelScope.launch(Dispatchers.IO) {
+            favDao.deleteFavourite(item.toEntity())
+        }
+    }
+
+    fun clearFavourites() {
+        _favouriteItems.clear()
+        viewModelScope.launch(Dispatchers.IO) {
+            favDao.clearFavourites()
+        }
     }
 }

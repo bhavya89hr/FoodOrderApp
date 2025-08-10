@@ -1,31 +1,62 @@
 package com.bhavya.foodorder.ViewModel
 
-import android.util.Log
+import android.app.Application
 import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.room.Room
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
+import com.bhavya.foodorder.model.AppDatabase
+import com.bhavya.foodorder.util.toEntity
+import com.bhavya.foodorder.util.toFoodItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+class CartViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val db = Room.databaseBuilder(
+        application,
+        AppDatabase::class.java,
+        "cart_db"
+    )
+        .fallbackToDestructiveMigration()
+        .build()
 
+    private val cartDao = db.cartDao()
 
+    private val _cartItems = mutableStateListOf<FoodItems>()
+    val cartItems: List<FoodItems> = _cartItems
 
-        class CartViewModel : ViewModel() {
+    init {
+        loadCartItems()
+    }
 
-
-            private val _cartItems = mutableStateListOf<FoodItems>()
-            var cartItems: List<FoodItems> = _cartItems
-
-            fun addToCart(item: FoodItems) {
-                _cartItems.add(item)
-                Log.d("CartViewModel", "Item added: ${item.name}, Total: ${_cartItems.size}")
-            }
-
-            fun removeFromCart(item: FoodItems) {
-                _cartItems.remove(item)
-            }
-
-            fun clearCart() {
-                _cartItems.clear()
-            }
+    private fun loadCartItems() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val entities = cartDao.getAllItems()
+            val items = entities.map { it.toFoodItem() }
+            _cartItems.addAll(items)
         }
+    }
 
+    fun addToCart(item: FoodItems) {
+        _cartItems.add(item)
+        viewModelScope.launch(Dispatchers.IO) {
+            cartDao.insertItem(item.toEntity())
+        }
+    }
+
+    fun removeFromCart(item: FoodItems) {
+        _cartItems.remove(item)
+        viewModelScope.launch(Dispatchers.IO) {
+            cartDao.deleteItem(item.toEntity())
+        }
+    }
+
+    fun clearCart() {
+        _cartItems.clear()
+        viewModelScope.launch(Dispatchers.IO) {
+            cartDao.clearCart()
+        }
+    }
+}

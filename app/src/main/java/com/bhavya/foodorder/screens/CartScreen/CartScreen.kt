@@ -180,7 +180,7 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel,favouri
                                             }
 
                                             DismissValue.DismissedToEnd -> {
-favouriteViewModel.addToCart(food)
+favouriteViewModel.addToFavourites(food)
 //                                                navController.navigate("Fav")
                                                 false
                                             }

@@ -73,7 +73,7 @@ import com.bhavya.foodorder.screens.HomeScreen.LightGrayCustom
 @Composable
 fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel) {
 
-    val cartItems = favouriteViewModel.cartItems
+    val cartItems = favouriteViewModel.favouriteItems
     var selectedItems by remember { mutableStateOf<FoodItems?>(null) }
     selectedItems?.let { food ->
         CardDetail(
@@ -171,7 +171,7 @@ fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavCon
                             val dismissState = rememberDismissState(
                                 confirmStateChange = {
                                     if (it == DismissValue.DismissedToStart) {
-                                        favouriteViewModel.removeFromCart(food)  // Remove from cart
+                                        favouriteViewModel.removeFromFavourites(food) // Remove from cart
                                         true
                                     } else false
                                 }

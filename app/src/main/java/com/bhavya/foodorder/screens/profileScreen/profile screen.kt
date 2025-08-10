@@ -33,6 +33,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +56,9 @@ import com.bhavya.foodorder.ViewModel.ProfileViewModel
 fun profileScreen(navController: NavController,profileViewModel: ProfileViewModel) {
 
 val name= profileViewModel.profile.value
+    LaunchedEffect(Unit) {
+        profileViewModel.loadProfile()
+    }
     Surface(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
 
         Column(
@@ -120,13 +124,13 @@ val name= profileViewModel.profile.value
                     Spacer(modifier = Modifier.width(20.dp))
 
                     Column(modifier = Modifier.fillMaxHeight().width(205.dp).padding(0.dp, 20.dp).verticalScroll(rememberScrollState())) {
-                        Text(text = name.name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                        Text(text = name.Name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = name.email, fontSize = 20.sp)
+                        Text(text = name.Email, fontSize = 20.sp)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text =name.MobileNO, fontSize = 20.sp)
+                        Text(text =name.MObileNO, fontSize = 20.sp)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = name.Adrees, fontSize = 20.sp)
+                        Text(text = name.Address, fontSize = 20.sp)
                     }
                 }
             }

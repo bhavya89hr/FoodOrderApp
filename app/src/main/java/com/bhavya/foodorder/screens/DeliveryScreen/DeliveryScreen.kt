@@ -121,11 +121,11 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                         verticalArrangement = Arrangement.SpaceEvenly
 
                     ) {
-                        Text(text = name.name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                        Text(text = name.Name, fontSize = 25.sp, fontWeight = FontWeight.Bold)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = name.Adrees, fontSize = 20.sp)
+                        Text(text = name.Address, fontSize = 20.sp)
                         Divider(modifier = Modifier.padding(5.dp))
-                        Text(text = name.MobileNO, fontSize = 20.sp)
+                        Text(text = name.MObileNO, fontSize = 20.sp)
 
 
                     }

@@ -56,6 +56,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.ViewModel.ProfileViewModel
 import com.bhavya.foodorder.dataclass.Profile
+import com.bhavya.foodorder.profileRoom.ProfileEntity
 import com.bhavya.getfitapp.components.InputFields
 
 
@@ -255,14 +256,17 @@ fun profileEdit(
                 Spacer(modifier = Modifier.height(13.dp))
             }
             Button(onClick = {
-     profileViewModel.profile.value= Profile(
-         name = value.value,
-         Adrees = Address.value,
-         email = Email.value,
-         MobileNO = mobileNum.value
-     )
+                profileViewModel.updateProfile(
+                    ProfileEntity(
+                        Name = value.value,
+                        Address = Address.value,
+                        Email = Email.value,
+                        MObileNO = mobileNum.value
+                    )
+                )
+
                 val name ="Delivery"
-                if (name==profileViewModel.name.toString())navController.navigate(name)
+                if (name==profileViewModel.name.toString())navController.navigate("Delivery")
                 else navController.navigate("profile")
             }, modifier = Modifier.width(150.dp)
                 .height(50.dp)

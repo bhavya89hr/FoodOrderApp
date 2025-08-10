@@ -445,7 +445,7 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
                     navController.navigate("home")      }
                     .rotate(180f),
                     colorFilter = ColorFilter.tint(Color.Black))
-                Image(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "", modifier = Modifier.clickable{favouriteViewModel.addToCart(food)
+                Image(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "", modifier = Modifier.clickable{favouriteViewModel.addToFavourites(food)
                     })
 //               Text(text="Back", color = Color.Black, fontWeight = FontWeight.Bold, modifier =Modifier, fontSize = 20.sp)
             }
