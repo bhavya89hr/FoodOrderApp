@@ -65,6 +65,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import com.bhavya.foodorder.ViewModel.FavouriteViewModel
 import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
+import com.bhavya.foodorder.screens.HomeScreen.LightGrayCustom
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -83,10 +84,10 @@ fun CartScreen(navController: NavController,cartViewModel: CartViewModel,favouri
 //    }
         val cartItems = cartViewModel.cartItems
         val uniqueItems = cartItems.distinctBy { it.id }
-        Surface(
+        androidx.compose.material.Surface (
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color(0xFFEFEEEE).copy(alpha = 0.6f))
+                .background(color = LightGrayCustom)
         ) {
 
             Box(modifier = Modifier.fillMaxSize()) {

@@ -112,7 +112,7 @@ fun profileEdit(
     ) { uri: Uri? ->
         selectedImageUri = uri // Save the selected image
     }
-    Surface(
+    androidx.compose.material.Surface (
         modifier = Modifier.fillMaxSize().background(Color.Black),
         color = Color.LightGray
     ) {
@@ -133,7 +133,7 @@ fun profileEdit(
             Text(text="Fill Your Profile", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black)
             Spacer(modifier = Modifier.height(40.dp))
 
-            Surface(modifier = Modifier.fillMaxWidth()
+            androidx.compose.material.Surface (modifier = Modifier.fillMaxWidth()
                 .height(150.dp),
                 color = Color.LightGray) {
                 Column(modifier = Modifier.width(300.dp).fillMaxHeight().

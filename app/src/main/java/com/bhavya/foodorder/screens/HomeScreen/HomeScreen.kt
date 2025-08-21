@@ -1,6 +1,7 @@
 package com.bhavya.foodorder.screens.HomeScreen
 
 
+import android.view.Surface
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 
@@ -34,6 +35,7 @@ import androidx.navigation.NavController
 import com.bhavya.foodorder.ViewModel.FoodViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -146,10 +148,12 @@ fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavContr
                         IconButton(
                             onClick = {scope.launch { drawerState.open() }},
                             modifier = Modifier.padding(start = 12.dp)
-                        ) {
+                        ){
                             Icon(
                                 painter = painterResource(id = R.drawable.vector), // Replace with your icon
-                                contentDescription = "Menu", modifier = Modifier.size(20.dp)
+                                contentDescription = "Menu",
+                                tint = Color.LightGray,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
                     },
@@ -157,7 +161,7 @@ fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavContr
                         IconButton(
                             onClick = { navController.navigate("Cart") },
                             modifier = Modifier.padding(end = 12.dp)
-                        ) {
+                        ){
                             Icon(
                                 painter = painterResource(id = R.drawable.vector1), // Replace with your icon
                                 contentDescription = "Cart",
@@ -173,7 +177,6 @@ fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavContr
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        // Define what happens when it's clicked
                         navController.navigate("ChatBot")
                     },
                     containerColor = Color.Red,
@@ -182,7 +185,7 @@ fun    HomeScreen(viewModel: FoodViewModel = viewModel(),navController: NavContr
                     modifier = Modifier.size(80.dp).clickable { navController.navigate("ChatBot") }
                 ) {
                     Icon(
-                        painter = painterResource(id = R.drawable.options), // 🔁 Replace with your FAB image
+                        painter = painterResource(id = R.drawable.options),
                         contentDescription = "FAB Icon",
                         modifier = Modifier.size(30.dp)
                     )
@@ -436,16 +439,29 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
 
 @Composable
 fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel){
-//val selecteditems by remember { mutableStateOf<FoodItems?>(null) }
-    androidx.compose.material3.Surface(modifier = Modifier.fillMaxSize().background(Color(0xFFEFEEEE).copy(alpha = 0.6f))) {
-        Column(modifier = Modifier.fillMaxSize().padding(10.dp,40.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-            Row(modifier = Modifier.fillMaxWidth().padding(16.dp,10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Image(imageVector = Icons.Default.PlayArrow, contentDescription = "", modifier = Modifier.clickable {
-                    navController.navigate("home")      }
-                    .rotate(180f),
+    Surface(modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)) {
+        Column(
+            modifier = Modifier.fillMaxSize().padding(10.dp, 40.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(16.dp, 10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Image(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "",
+                    modifier = Modifier.clickable {
+                        navController.navigate("home")
+                    }
+                        .rotate(180f),
                     colorFilter = ColorFilter.tint(Color.Black))
-                Image(imageVector = Icons.Outlined.FavoriteBorder, contentDescription = "", modifier = Modifier.clickable{favouriteViewModel.addToFavourites(food)
+                Image(
+                    imageVector = Icons.Outlined.FavoriteBorder,
+                    contentDescription = "",
+                    modifier = Modifier.clickable {
+                        favouriteViewModel.addToFavourites(food)
                     })
 //               Text(text="Back", color = Color.Black, fontWeight = FontWeight.Bold, modifier =Modifier, fontSize = 20.sp)
             }
@@ -478,16 +494,29 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
                     }
                 }
             }
-            Box(modifier = Modifier.fillMaxWidth().height(40.dp), contentAlignment = Alignment.Center) {
-                Text(text= food.name, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
+            Box(
+                modifier = Modifier.fillMaxWidth().height(40.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = food.name, fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
 
             }
             Spacer(modifier = Modifier.height(25.dp))
 
-            Row( modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center){
-                Text(text = "₹",fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color(0xFFFA4A0C))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                Text(
+                    text = "₹",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFFFA4A0C)
+                )
 //                   Text(text = ",",fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color.Red)
-                Text(text =food.price.toString(),fontSize = 24.sp, fontWeight = FontWeight.Medium, color = Color(0xFFFA4A0C))
+                Text(
+                    text = food.price.toString(),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFFFA4A0C)
+                )
             }
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -501,9 +530,10 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp),
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -530,21 +560,39 @@ fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavCo
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Column(modifier = Modifier.fillMaxHeight().fillMaxWidth(), horizontalAlignment = Alignment.Start, verticalArrangement = Arrangement.Top) {
-                Text(text="Delivery Info" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+            Column(
+                modifier = Modifier.fillMaxHeight().fillMaxWidth(),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top
+            ) {
+                Text(text = "Delivery Info", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(15.dp))
-                Text(text="Delivered between monday aug and thursday 20 from 8pm to 91:32 pm" , fontSize = 22.sp, fontWeight = FontWeight.Light)
+                Text(
+                    text = "Delivered between monday aug and thursday 20 from 8pm to 91:32 pm",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Light
+                )
                 Spacer(modifier = Modifier.height(25.dp))
-                Text(text="Return Policy" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+                Text(text = "Return Policy", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text="All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately." , fontSize = 22.sp, fontWeight = FontWeight.Light)
+                Text(
+                    text = "All our foods are double checked before leaving our stores so by any case you found a broken food please contact our hotline immediately.",
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Light
+                )
                 Spacer(modifier = Modifier.height(35.dp))
 
-                Button(onClick = { cartViewModel.addToCart(food)
-                    navController.navigate("Cart")}, colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFA4A0C)), modifier = Modifier.height(60.dp).fillMaxWidth()) {
+                Button(
+                    onClick = {
+                        cartViewModel.addToCart(food)
+                        navController.navigate("Cart")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFA4A0C)),
+                    modifier = Modifier.height(60.dp).fillMaxWidth()
+                ) {
 
-                    Text(text="Add to Cart" , fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
+                    Text(text = "Add to Cart", fontSize = 22.sp, fontWeight = FontWeight.SemiBold)
 
                 }
 

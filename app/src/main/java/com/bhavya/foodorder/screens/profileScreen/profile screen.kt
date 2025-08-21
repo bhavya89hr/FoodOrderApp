@@ -59,7 +59,7 @@ val name= profileViewModel.profile.value
     LaunchedEffect(Unit) {
         profileViewModel.loadProfile()
     }
-    Surface(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+    androidx.compose.material.Surface (modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
 
         Column(
             modifier = Modifier.fillMaxSize().background(color = Color.LightGray)

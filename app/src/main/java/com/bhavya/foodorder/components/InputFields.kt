@@ -38,8 +38,7 @@ fun InputFields(
     OutlinedTextField(value=valueState.value,
         onValueChange = {valueState.value=it},
 
-//        leadingIcon = { Icon(imageVector = Icons.Rounded.Add, contentDescription = "money icon") },
-        textStyle = TextStyle(fontSize = 18.sp),
+        textStyle = TextStyle(fontSize = 21.sp, color = Color.Black),
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType,
             imeAction = imeAction),
         singleLine=isSingleLine,

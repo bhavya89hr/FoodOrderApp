@@ -78,16 +78,15 @@ var newitems by remember { mutableStateOf(Items) }
         )
         return
     }
-
-    Surface(
+androidx.compose.material.Surface  (
         modifier = Modifier
             .fillMaxSize()
             .background(color = LightGrayCustom)
-            .padding(0.dp,20.dp)
+
 
     ) {
 
-        Column(modifier = Modifier.padding(10.dp,30.dp)) {
+        Column(modifier = Modifier.padding(10.dp,40.dp).fillMaxSize()) {
          Box(modifier = Modifier.fillMaxWidth()){
              Row(
                  modifier = Modifier
@@ -169,7 +168,7 @@ Spacer(modifier = Modifier.height(20.dp))
     }
     }
 }
-        }
+}
 
 
 @Composable
