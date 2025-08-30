@@ -37,90 +37,61 @@ fun PaymentScreen(
     val sum = cartItem.sumOf { it.price }
     val context = LocalContext.current
 
+    var selectedMetho by remember { mutableStateOf("COD") } // default COD
+    var selectedMethod by remember { mutableStateOf(value) }
+
+    val buttonText = if (selectedMetho == "COD") "Place Order" else "Process to Payment"
+
     Surface(modifier = Modifier.fillMaxSize().background(Color.LightGray)) {
         Column(modifier = Modifier.fillMaxSize().padding(30.dp), horizontalAlignment = Alignment.Start) {
-            Row(
-                modifier = Modifier.fillMaxWidth().height(70.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowLeft,
-                    contentDescription = "",
-                    modifier = Modifier.size(30.dp).clickable { navController.navigate("Delivery") }
-                )
-                Text("Checkout", fontWeight = FontWeight.Normal, fontSize = 25.sp, modifier = Modifier.padding(start = 110.dp))
-            }
 
-            Spacer(Modifier.height(20.dp))
-            Text("Payment", fontWeight = FontWeight.SemiBold, fontSize = 35.sp)
-            Spacer(Modifier.height(30.dp))
+            // ... your other UI code remains same ...
 
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start) {
-                Text("address method", fontSize = 20.sp, fontWeight = FontWeight.Normal)
-            }
-
-            Spacer(Modifier.height(40.dp))
-            // keep UI as-is
-            var selectedMetho by remember { mutableStateOf("Card") }
-
-            Card(modifier = Modifier.fillMaxWidth().height(160.dp), elevation = 6.dp, shape = RoundedCornerShape(10.dp)) {
-                Column(modifier = Modifier.fillMaxSize().padding(20.dp, 10.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+            // Payment Methods
+            Card(modifier = Modifier.fillMaxWidth().height(200.dp), elevation = 6.dp, shape = RoundedCornerShape(10.dp)) {
+                Column(
+                    modifier = Modifier.fillMaxSize().padding(20.dp, 10.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly
+                ) {
                     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { selectedMetho = "Card" }) {
                         RadioButton(selected = selectedMetho == "Card", onClick = { selectedMetho = "Card" })
-                        Card(modifier = Modifier.size(30.dp), shape = RoundedCornerShape(7.dp)) {
-                            Icon(Icons.Default.CreditCard, contentDescription = null)
-                        }
+                        Icon(Icons.Default.CreditCard, contentDescription = null)
                         Text("Card", fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
                     }
-                    Divider(modifier = Modifier.padding(5.dp))
+                    Divider()
                     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { selectedMetho = "Bank Account" }) {
                         RadioButton(selected = selectedMetho == "Bank Account", onClick = { selectedMetho = "Bank Account" })
-                        Card(modifier = Modifier.size(30.dp), shape = RoundedCornerShape(7.dp)) {
-                            Icon(Icons.Default.FoodBank, contentDescription = null)
-                        }
+                        Icon(Icons.Default.FoodBank, contentDescription = null)
                         Text("Bank Account", fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
                     }
-                }
-            }
-
-            Spacer(Modifier.height(30.dp))
-            Text("Delivery Method", fontWeight = FontWeight.Normal, fontSize = 20.sp)
-            Spacer(Modifier.height(30.dp))
-            var selectedMethod by remember { mutableStateOf(value) }
-
-            Card(modifier = Modifier.fillMaxWidth().height(160.dp), elevation = 6.dp, shape = RoundedCornerShape(10.dp)) {
-                Column(modifier = Modifier.fillMaxSize().padding(20.dp, 10.dp), verticalArrangement = Arrangement.SpaceEvenly) {
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { selectedMethod = "Door delivery" }) {
-                        RadioButton(selected = selectedMethod == "Door delivery", onClick = { selectedMethod = "Door delivery" })
-                        Text("Door delivery", fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
-                    }
-                    Divider(modifier = Modifier.padding(5.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { selectedMethod = "PickUp" }) {
-                        RadioButton(selected = selectedMethod == "PickUp", onClick = { selectedMethod = "PickUp" })
-                        Text("PickUp", fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
+                    Divider()
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable { selectedMetho = "COD" }) {
+                        RadioButton(selected = selectedMetho == "COD", onClick = { selectedMetho = "COD" })
+                        Text("Cash on Delivery (COD)", fontSize = 20.sp, modifier = Modifier.padding(start = 8.dp))
                     }
                 }
             }
 
             Spacer(Modifier.height(30.dp))
+
+            // Total + Button
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Total ", fontSize = 20.sp, fontWeight = FontWeight.Normal)
-                Text(sum.toString(), fontSize = 25.sp, fontWeight = FontWeight.SemiBold, color = Color.Black)
+                Text("Total ", fontSize = 20.sp)
+                Text(sum.toString(), fontSize = 25.sp, fontWeight = FontWeight.SemiBold)
             }
 
             Spacer(Modifier.height(30.dp))
 
-            // 👉 Always place COD (no UI change). You can switch this to selectedMetho later.
             Button(
                 onClick = {
                     placeOrderCOD(
                         profileViewModel = profileViewModel,
                         cartViewModel = cartViewModel,
-                        deliveryMethod = selectedMethod,   // "Door delivery" / "PickUp"
+                        deliveryMethod = selectedMethod,
                         context = context
                     ) { success, orderId, error ->
                         if (success) {
-                            Toast.makeText(context, "Order Placed! #$orderId", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Order Placed Successfully ✅ #$orderId", Toast.LENGTH_SHORT).show()
                             navController.navigate("home")
                         } else {
                             Toast.makeText(context, error ?: "Failed to place order", Toast.LENGTH_SHORT).show()
@@ -131,7 +102,7 @@ fun PaymentScreen(
                 modifier = Modifier.fillMaxWidth().height(55.dp),
                 shape = RoundedCornerShape(20.dp)
             ) {
-                Text("Process to Payment", fontSize = 20.sp, color = Color.White)
+                Text(buttonText, fontSize = 20.sp, color = Color.White)
             }
         }
     }
@@ -145,7 +116,7 @@ fun placeOrderCOD(
     context: Context,
     onComplete: (success: Boolean, orderId: String?, error: String?) -> Unit
 ) {
-    val profile = profileViewModel.profile.value
+    val profile = profileViewModel.profile.value ?: return onComplete(false, null, "Profile not loaded")
     val items = cartViewModel.cartItems
 
     if (items.isEmpty()) {
@@ -155,11 +126,10 @@ fun placeOrderCOD(
 
     val total = items.sumOf { it.price }
 
-    // Build a Map so it works even if your data class changes
     val orderData = hashMapOf(
-        "userName" to profile.Name,
-        "address" to profile.Address,
-        "mobile" to profile.MObileNO,
+        "userName" to (profile.Name ?: ""),
+        "address" to (profile.Address ?: ""),
+        "mobile" to (profile.MObileNO ?: ""),
         "items" to items.map { mapOf("id" to it.id, "name" to it.name, "price" to it.price) },
         "totalAmount" to total,
         "deliveryMethod" to deliveryMethod,
@@ -170,14 +140,14 @@ fun placeOrderCOD(
     )
 
     val db = FirebaseFirestore.getInstance()
-    val docRef = db.collection("orders").document() // create id first to return it
+    val docRef = db.collection("orders").document()
+
     docRef.set(orderData)
         .addOnSuccessListener {
-            // clear local cart
             cartViewModel.clearCart()
             onComplete(true, docRef.id, null)
         }
         .addOnFailureListener { e ->
-            onComplete(false, null, e.message)
+            onComplete(false, null, e.localizedMessage)
         }
 }
