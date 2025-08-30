@@ -71,11 +71,10 @@ dependencies {
     // Firebase BOM (manages all versions)
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
 
-    // Firebase Authentication
-    implementation("com.google.firebase:firebase-auth")
-
-    // Firebase Firestore (Cloud Firestore)
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth:23.0.0")
+// or latest
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
+// for Firestore
 
     // Firebase Realtime Database (optional)
     implementation("com.google.firebase:firebase-database")

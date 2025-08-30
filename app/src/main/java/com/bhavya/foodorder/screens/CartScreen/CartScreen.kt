@@ -1,5 +1,7 @@
 package com.bhavya.foodorder.screens.CartScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,15 +22,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -41,15 +40,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
-import com.bhavya.foodorder.R
 import com.bhavya.foodorder.ViewModel.CartViewModel
 import androidx.compose.material.SwipeToDismiss
 import androidx.compose.material.DismissDirection
@@ -63,9 +57,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import com.bhavya.foodorder.HistoryRoom.HistoryEntity
 import com.bhavya.foodorder.ViewModel.FavouriteViewModel
 import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
 import com.bhavya.foodorder.screens.HomeScreen.LightGrayCustom
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -354,3 +351,6 @@ favouriteViewModel.addToFavourites(food)
             }
         }
     }
+
+
+

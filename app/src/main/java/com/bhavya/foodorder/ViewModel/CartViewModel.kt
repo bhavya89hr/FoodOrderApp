@@ -12,17 +12,20 @@ import com.bhavya.foodorder.util.toFoodItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.auth.FirebaseAuth
+
 class CartViewModel(application: Application) : AndroidViewModel(application) {
 
     private val db = Room.databaseBuilder(
         application,
         AppDatabase::class.java,
         "cart_db"
-    )
-        .fallbackToDestructiveMigration()
-        .build()
+    ).fallbackToDestructiveMigration().build()
 
     private val cartDao = db.cartDao()
+    private val firestore = FirebaseFirestore.getInstance()
+    private val auth = FirebaseAuth.getInstance()
 
     private val _cartItems = mutableStateListOf<FoodItems>()
     val cartItems: List<FoodItems> = _cartItems
@@ -43,6 +46,13 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         _cartItems.add(item)
         viewModelScope.launch(Dispatchers.IO) {
             cartDao.insertItem(item.toEntity())
+
+            val uid = auth.currentUser?.uid ?: return@launch
+            firestore.collection("carts")
+                .document(uid)
+                .collection("items")
+                .document(item.id.toString())
+                .set(item)
         }
     }
 
@@ -50,6 +60,13 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         _cartItems.remove(item)
         viewModelScope.launch(Dispatchers.IO) {
             cartDao.deleteItem(item.toEntity())
+
+            val uid = auth.currentUser?.uid ?: return@launch
+            firestore.collection("carts")
+                .document(uid)
+                .collection("items")
+                .document(item.id.toString())
+                .delete()
         }
     }
 
@@ -57,6 +74,16 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
         _cartItems.clear()
         viewModelScope.launch(Dispatchers.IO) {
             cartDao.clearCart()
+
+            // 🔹 Clear from Firestore
+            val uid = auth.currentUser?.uid ?: return@launch
+            firestore.collection("carts")
+                .document(uid)
+                .collection("items")
+                .get()
+                .addOnSuccessListener { snapshot ->
+                    snapshot.documents.forEach { it.reference.delete() }
+                }
         }
     }
 }

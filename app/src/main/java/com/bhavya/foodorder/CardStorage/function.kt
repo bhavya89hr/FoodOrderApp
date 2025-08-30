@@ -7,7 +7,7 @@ fun FoodItems.toEntity(): CartItemEntity {
     return CartItemEntity(
         itemId = this.id,
         name = this.name,
-        price = this.price,
+        price = this.price as Int,
         imageUrl = this.imageUrl
     )
 }
@@ -16,7 +16,7 @@ fun CartItemEntity.toFoodItem(): FoodItems {
     return FoodItems(
         id = this.itemId,
         name = this.name,
-        price = this.price,
+        price = 1,
         imageUrl = this.imageUrl,
         description = "",
         category = "",

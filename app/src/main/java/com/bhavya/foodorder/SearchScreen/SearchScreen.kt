@@ -78,7 +78,7 @@ var newitems by remember { mutableStateOf(Items) }
         )
         return
     }
-androidx.compose.material.Surface  (
+androidx.compose.material.Surface(
         modifier = Modifier
             .fillMaxSize()
             .background(color = LightGrayCustom)
