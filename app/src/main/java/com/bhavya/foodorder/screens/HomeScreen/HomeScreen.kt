@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,7 +35,9 @@ import androidx.navigation.NavController
 
 import com.bhavya.foodorder.ViewModel.FoodViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -277,6 +280,8 @@ fun SearchBar(
             )
         },
         colors = OutlinedTextFieldDefaults.colors(
+            focusedTextColor = Color.Black,
+            unfocusedTextColor = Color.Black,
             focusedBorderColor = Color.Transparent,
             unfocusedBorderColor = Color.Transparent,
             disabledBorderColor = Color.Transparent,
@@ -373,8 +378,8 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
             .width(270.dp)
             .background(color = LightGrayCustom)
             .clickable{onClick(food)}
-            .padding()
-           ,
+
+        ,
         contentAlignment = Alignment.TopCenter
     ) {
 
@@ -382,8 +387,8 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
         Box(
             modifier = Modifier
                 .padding(top = 100.dp) // Push it down to allow space for the image
-                .height(360.dp)
-                .width(270.dp)
+                .height(370.dp)
+                .width(280.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(color = Color.White)
             , contentAlignment = Alignment.Center
@@ -441,7 +446,9 @@ fun FoodItemCard(food: FoodItems,onClick: (FoodItems) -> Unit){
 fun CardDetail(onClick: (FoodItems) -> Unit,food: FoodItems,navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel){
     Surface(modifier = Modifier.fillMaxSize().background(color = LightGrayCustom)) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(10.dp, 40.dp),
+            modifier = Modifier.fillMaxSize().padding(10.dp, 40.dp).verticalScroll(
+                rememberScrollState()
+            ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(

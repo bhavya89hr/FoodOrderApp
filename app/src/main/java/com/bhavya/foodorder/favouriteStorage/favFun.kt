@@ -7,7 +7,7 @@ fun FoodItems.toEntity(): FavouriteItemEntity {
     return FavouriteItemEntity(
         itemId = this.id,
         name = this.name,
-        price = this.price,
+        price = this.price as Int,
         imageUrl = this.imageUrl
     )
 }

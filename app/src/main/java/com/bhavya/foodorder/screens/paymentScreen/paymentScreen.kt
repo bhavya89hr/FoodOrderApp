@@ -1,5 +1,7 @@
 package com.bhavya.foodorder.screens.paymentScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,7 +15,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -25,6 +29,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,18 +44,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.bhavya.foodorder.HistoryRoom.HistoryEntity
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.HistoryViewmodel
 import com.bhavya.foodorder.ViewModel.ProfileViewModel
+import com.bhavya.foodorder.screens.HistoryScreen.getCurrentDateTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavController,cartViewModel: CartViewModel, value: String){
+fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavController,cartViewModel: CartViewModel, value: String,historyViewmodel: HistoryViewmodel){
     val name= profileViewModel.profile.value
     val cartItem=cartViewModel.cartItems
 
 
-    val sum=cartItem.sumOf { it.price }
+  val sum=cartItem.sumOf{it.price}
 
-    Surface(modifier = Modifier.fillMaxSize().background(Color.LightGray)
+    Surface(modifier = Modifier.fillMaxSize().background(Color.LightGray).verticalScroll(
+        rememberScrollState()
+    )
 
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(30.dp), horizontalAlignment = Alignment.Start){
@@ -102,12 +113,12 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable { selectedMetho = "Card" }
                     ) {
-                        androidx.compose.material3.RadioButton(
+                        androidx.compose.material.RadioButton(
                             selected = selectedMetho == "Card",
                             onClick = { selectedMetho = "Card" }
                         )
                         Card(modifier = Modifier.size(30.dp), shape = RoundedCornerShape(7.dp)) {
-                        Image(imageVector = Icons.Default.CreditCard, contentDescription = "")
+                            Image(imageVector = Icons.Default.CreditCard, contentDescription = "")
                         }
                         Text(
                             text = "Card",
@@ -121,7 +132,7 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable { selectedMetho = "Bank Account" }
                     ) {
-                        androidx.compose.material3.RadioButton(
+                        androidx.compose.material.RadioButton(
                             selected = selectedMetho == "Bank Account",
                             onClick = { selectedMetho = "Bank Account" }
                         )
@@ -156,7 +167,7 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable { selectedMethod = "Door delivery" }
                     ) {
-                        androidx.compose.material3.RadioButton(
+                        androidx.compose.material.RadioButton(
                             selected = selectedMethod == "Door delivery",
                             onClick = { selectedMethod = "Door delivery" }
                         )
@@ -172,7 +183,7 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.clickable { selectedMethod = "PickUp" }
                     ) {
-                        androidx.compose.material3.RadioButton(
+                        RadioButton(
                             selected = selectedMethod == "PickUp",
                             onClick = { selectedMethod = "PickUp" }
                         )
@@ -206,7 +217,26 @@ fun PaymentScreen(profileViewModel: ProfileViewModel,navController: NavControlle
             Spacer(modifier = Modifier.height(30.dp))
 
             Button(
-                onClick = {  },
+                onClick = {
+                    val profile = profileViewModel.profile.value
+                    val dateTime = getCurrentDateTime()
+
+                    cartViewModel.cartItems.forEach { item ->
+                        val history = HistoryEntity(
+                            userName = profile.Name,
+                            address = profile.Address,
+                            mobileNo = profile.MObileNO,
+                            foodId = item.id.toString(),
+                            foodName = item.name,
+                            price = item.price as Int,
+                            dateTime = dateTime,
+                            photoUrl = item.imageUrl
+                        )
+                        historyViewmodel.insertHistory(history)
+                    }
+                    cartViewModel.clearCart()
+                    navController.navigate("History")
+                          },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color(0xFFFA4A0C)
                 ),

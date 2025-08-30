@@ -95,7 +95,7 @@ fun FavouriteScreen(favouriteViewModel: FavouriteViewModel,navController: NavCon
 
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp, 50.dp, 20.dp, 100.dp)
+                    .padding(20.dp, 50.dp, 20.dp)
                     .verticalScroll(rememberScrollState()),
                 // Bottom padding for button space
                 verticalArrangement = Arrangement.Top,

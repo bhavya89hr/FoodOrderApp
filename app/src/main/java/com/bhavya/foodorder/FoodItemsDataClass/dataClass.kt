@@ -8,4 +8,5 @@ data class FoodItems (
     val description: String,
     val category: String,
     val rating: Double,
-    val isAvailable: Boolean)
+    val isAvailable: Boolean
+)

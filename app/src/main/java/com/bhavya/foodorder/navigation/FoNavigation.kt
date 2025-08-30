@@ -3,6 +3,8 @@ package com.bhavya.foodorder.navigation
 import FoodDetailScreen
 import android.annotation.SuppressLint
 import android.appwidget.AppWidgetProvider
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -15,7 +17,9 @@ import androidx.navigation.navArgument
 import com.bhavya.foodorder.DataManager
 import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.ChatViewModel
 import com.bhavya.foodorder.ViewModel.FavouriteViewModel
+import com.bhavya.foodorder.ViewModel.HistoryViewmodel
 import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
 import com.bhavya.foodorder.ViewModel.ProfileViewModel
 import com.bhavya.foodorder.screens.CartScreen.CartScreen
@@ -33,14 +37,17 @@ import com.bhavya.foodorder.screens.profileScreen.profileEdit
 import com.bhavya.foodorder.screens.profileScreen.profileScreen
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FoNavigation() {
-
+val viewmodel: ChatViewModel=viewModel()
     val navController = rememberNavController()
     val favouriteViewModel: FavouriteViewModel = viewModel()
     val profileViewModel: ProfileViewModel = viewModel()
     val cartviewmodel: CartViewModel = viewModel()
+    val historyViewmodel: HistoryViewmodel=viewModel()
     val Searchitems: SharedSearchViewModel = viewModel()
+    val searchViewModel: SharedSearchViewModel=viewModel()
     NavHost(navController = navController, startDestination = AppScreens.HomeScreen.route) {
         composable(AppScreens.GetStarted.route) {
             GetStarted(navController)
@@ -67,7 +74,13 @@ fun FoNavigation() {
             )
         }
         composable(AppScreens.ChatBotScreen.route) {
-            ChatBotScreen(navController = navController)
+            ChatBotScreen(
+                navController = navController,
+                viewModel = viewmodel,
+                cartViewModel = cartviewmodel,
+                searchViewModel = searchViewModel,
+                favouriteViewModel = favouriteViewModel,
+            )
         }
         composable(
             route = "detail/{name}/{price}",
@@ -133,10 +146,13 @@ fun FoNavigation() {
             )
         }
         composable(AppScreens.HistoryScreen.route) {
-            HistoryScreen(navController)
+            HistoryScreen(
+                navController, cartviewmodel, profileViewModel,
+                historyViewmodel
+            )
         }
         composable(AppScreens.DeliveryScreen.route) {
-   DeliveryScreen(profileViewModel, navController = navController, cartViewModel = cartviewmodel)
+   DeliveryScreen(profileViewModel, navController = navController, cartViewModel = cartviewmodel,historyViewmodel)
         }
     }
 }

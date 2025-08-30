@@ -1,7 +1,6 @@
 package com.bhavya.foodorder.screens.ChatBotScreen
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -34,33 +33,42 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.semantics.SemanticsProperties.ImeAction
 import androidx.navigation.NavController
-import kotlinx.coroutines.delay
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.sp
 import com.bhavya.foodorder.ViewModel.ChatViewModel
 import com.bhavya.foodorder.dataclass.FoodResponse
-import androidx.compose.foundation.lazy.items
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import com.bhavya.foodorder.FoodItemsDataClass.FoodItems
+import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.FavouriteViewModel
+import com.bhavya.foodorder.ViewModel.SharedSearchViewModel
+import com.bhavya.foodorder.screens.HomeScreen.CardDetail
 
 
 @Composable
-fun ChatBotScreen(viewModel: ChatViewModel = viewModel(), navController: NavController) {
+fun ChatBotScreen(viewModel: ChatViewModel = viewModel(), navController: NavController,cartViewModel: CartViewModel,searchViewModel: SharedSearchViewModel,favouriteViewModel: FavouriteViewModel) {
     val scrollState = rememberLazyListState()
+    var selectedFood by remember { mutableStateOf<FoodItems?>(null) }
 
+    selectedFood?.let { food ->
+        CardDetail(
+            food = food,
+            onClick = { selectedFood = null },
+            cartViewModel = cartViewModel,
+            searchViewModel = searchViewModel,
+            favouriteViewModel = favouriteViewModel,
+            navController = navController
+        )
+        return
+    }
     Surface(
-        color = Color(0xFFB3E5FC), // Sky blue background
+        color = Color.White, // Sky blue background
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
@@ -76,7 +84,9 @@ fun ChatBotScreen(viewModel: ChatViewModel = viewModel(), navController: NavCont
                 contentPadding = PaddingValues(8.dp)
             ) {
                 items(viewModel.foodSuggestions) { item ->
-                    FoodCard(item)
+                    FoodCard(item) { clickedFood ->
+                        selectedFood = clickedFood
+                    }
                 }
 
                 if (viewModel.isLoading) {
@@ -87,7 +97,7 @@ fun ChatBotScreen(viewModel: ChatViewModel = viewModel(), navController: NavCont
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TextField(
@@ -100,18 +110,25 @@ fun ChatBotScreen(viewModel: ChatViewModel = viewModel(), navController: NavCont
                     Icon(Icons.Default.Send, contentDescription = "Send")
                 }
             }
+            Spacer(Modifier.height(40.dp))
+
         }
     }
 }
 
 
 @Composable
-fun FoodCard(item: FoodResponse) {
+
+fun FoodCard(item: FoodResponse, onClick: (FoodItems) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+            .padding(8.dp)
+            .clickable {
+                onClick(item.toFoodItems())   // convert & send
+            },
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(Color.LightGray)
     ) {
         Row(modifier = Modifier.padding(8.dp)) {
             AsyncImage(
@@ -131,9 +148,20 @@ fun FoodCard(item: FoodResponse) {
                 Text(item.category, style = MaterialTheme.typography.bodySmall, fontWeight = FontWeight.SemiBold,
                     fontSize = 14.sp)
                 Spacer(Modifier.height(10.dp))
-                Text("₹${item.portion.firstOrNull()?.price ?: "--"}",
-                    fontSize = 18.sp)
+                Text("₹${item.portion.firstOrNull()?.price ?: "--"}", fontSize = 18.sp)
             }
         }
     }
+}
+fun FoodResponse.toFoodItems(): FoodItems {
+    return FoodItems(
+        id =  "",
+        name = this.name,
+        price = 1,
+        imageUrl = this.imageUrl.firstOrNull() ?: "",
+        description = "",
+        category = this.category,
+        rating =  0.0,
+        isAvailable = true
+    )
 }

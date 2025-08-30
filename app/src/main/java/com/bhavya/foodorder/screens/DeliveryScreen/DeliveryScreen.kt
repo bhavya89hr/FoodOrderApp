@@ -1,5 +1,7 @@
 package com.bhavya.foodorder.screens.DeliveryScreen
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,20 +47,22 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bhavya.foodorder.R
 import com.bhavya.foodorder.ViewModel.CartViewModel
+import com.bhavya.foodorder.ViewModel.HistoryViewmodel
 import com.bhavya.foodorder.ViewModel.ProfileViewModel
 import com.bhavya.foodorder.screens.paymentScreen.PaymentScreen
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavController,cartViewModel: CartViewModel) {
+fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavController,cartViewModel: CartViewModel,historyViewmodel: HistoryViewmodel) {
     val name = profileViewModel.profile.value
     val cartItem = cartViewModel.cartItems
     var newSelection by remember { mutableStateOf("") }
     if (newSelection=="") {
 
-        val sum = cartItem.sumOf { it.price }
-        Surface(
-            modifier = Modifier.fillMaxSize().background(Color.LightGray)
+       val sum = cartItem.sumOf{it.price}
+        Surface (
+            modifier = Modifier.fillMaxSize().background(Color.LightGray).verticalScroll(rememberScrollState())
 
         ) {
             Column(
@@ -154,7 +158,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.clickable { selectedMethod = "Door delivery" }
                         ) {
-                            RadioButton(
+                            androidx.compose.material.RadioButton(
                                 selected = selectedMethod == "Door delivery",
                                 onClick = { selectedMethod = "Door delivery" }
                             )
@@ -170,7 +174,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.clickable { selectedMethod = "PickUp" }
                         ) {
-                            RadioButton(
+                            androidx.compose.material.RadioButton(
                                 selected = selectedMethod == "PickUp",
                                 onClick = { selectedMethod = "PickUp" }
                             )
@@ -227,7 +231,7 @@ fun DeliveryScreen(profileViewModel: ProfileViewModel,navController: NavControll
 
             value=value,
             navController = navController, profileViewModel = profileViewModel,
-            cartViewModel = cartViewModel
+            cartViewModel = cartViewModel, historyViewmodel = historyViewmodel
         )
         return
     }

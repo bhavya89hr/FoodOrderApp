@@ -63,7 +63,7 @@ val name= profileViewModel.profile.value
 
         Column(
             modifier = Modifier.fillMaxSize().background(color = Color.LightGray)
-                .padding(30.dp, 20.dp),
+                .padding(30.dp, 10.dp),
 
             horizontalAlignment = Alignment.Start
         ) {
@@ -164,6 +164,8 @@ val name= profileViewModel.profile.value
                 Button(onClick = {}, colors = ButtonDefaults.buttonColors(containerColor = Color.Red), modifier = Modifier.fillMaxWidth().height(55.dp), shape =  RoundedCornerShape(20.dp)) {
                     Text(text = "Update", fontSize = 20.sp)
                 }
+                Spacer(modifier = Modifier.height(60.dp))
+
             }
         }
 
