@@ -16,4 +16,5 @@ class AuthRepository(
 
     fun currentUser() = auth.currentUser
     fun logout() = auth.signOut()
+
 }
