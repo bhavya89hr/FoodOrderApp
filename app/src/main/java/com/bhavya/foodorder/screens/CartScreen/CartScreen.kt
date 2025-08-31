@@ -70,15 +70,6 @@ import java.time.format.DateTimeFormatter
 
 fun CartScreen(navController: NavController,cartViewModel: CartViewModel,favouriteViewModel: FavouriteViewModel,searchViewModel: SharedSearchViewModel) {
     var selectedItems by remember { mutableStateOf<FoodItems?>(null) }
-//    selectedItems?.let { food ->
-//        FavouriteScreen(
-//            favouriteViewModel =favouriteViewModel,
-//            navController = navController,
-//            cartViewModel = cartViewModel,
-//            searchViewModel = searchViewModel
-//        )
-//        return
-//    }
         val cartItems = cartViewModel.cartItems
         val uniqueItems = cartItems.distinctBy { it.id }
         androidx.compose.material.Surface (

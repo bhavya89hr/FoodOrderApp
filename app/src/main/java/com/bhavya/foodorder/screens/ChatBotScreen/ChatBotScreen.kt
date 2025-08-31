@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
-
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.Surface

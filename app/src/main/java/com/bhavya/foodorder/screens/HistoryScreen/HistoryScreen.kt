@@ -134,9 +134,9 @@ if (historyList.isEmpty()) {
         horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text="All Orders Placed", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.SemiBold)
 
-        Spacer(modifier = Modifier.height(40.dp))
+        Spacer(modifier = Modifier.height(50.dp))
        historyList.forEach {foodItems ->
-      (      Card(modifier = Modifier.fillMaxWidth().height(260.dp).padding(0.dp), shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(Color(0xFF7DF9FF))) {
+      (      Card(modifier = Modifier.fillMaxWidth().height(273.dp).padding(10.dp), shape = RoundedCornerShape(20.dp), colors = CardDefaults.cardColors(Color(0xFF7DF9FF))) {
 Column(modifier = Modifier.fillMaxSize().padding(10.dp)) {
     Text(text="User Info", fontSize = 20.sp, color = Color.Black, fontWeight = FontWeight.SemiBold)
 
